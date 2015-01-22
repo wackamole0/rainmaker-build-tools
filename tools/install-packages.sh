@@ -11,6 +11,7 @@ apt-get install -y \
 	iftop \
 	iotop \
 	iptables \
+	iptables-persistent \
 	iptraf \
 	lftp \
 	lsof \
