@@ -23,7 +23,6 @@ apt-get install -y \
 	nano \
 	nmap \
 	ntop \
-	ntp \
 	openssh-client \
 	openssh-server \
 	pv \
