@@ -1,0 +1,22 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-download
+# Parameters passed to the template: -d ubuntu -r trusty -a amd64
+# For additional config options, please look at lxc.container.conf(5)
+
+# Distribution configuration
+lxc.include = /usr/share/lxc/config/ubuntu.common.conf
+lxc.arch = x86_64
+
+# Container specific configuration
+lxc.rootfs = /var/lib/lxc/services/rootfs
+lxc.utsname = services
+
+lxc.start.auto = 1
+lxc.start.delay = 0
+lxc.start.order = 0
+lxc.group = onboot
+
+# Network configuration
+lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.link = br0
+lxc.network.hwaddr = 00:16:3e:b0:1b:1a

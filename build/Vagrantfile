@@ -1,0 +1,27 @@
+VAGRANTFILE_API_VERSION = "2"
+
+# Example 2
+#
+# Single box with some custom options defined in variables.
+#
+
+BOX      = "ubuntu-14.04-amd64.box"
+URL      = "https://github.com/kraksoft/vagrant-box-ubuntu/releases/download/14.04/ubuntu-14.04-amd64.box"
+HOSTNAME = "rainmaker"
+DOAMIN   = "localdev"
+IP       = "10.100.0.254"
+NETMASK  = "255.255.0.0"
+RAM      = "512"
+VBOX_GUI = true
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = BOX
+  config.vm.network "private_network", ip: IP, netmask: NETMASK
+  config.vm.synced_folder "~/Projects/rainmaker-tools", "/mnt/rainmaker-tools"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = VBOX_GUI
+    vb.customize ["modifyvm", :id, "--memory", RAM]
+  end
+
+end

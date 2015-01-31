@@ -1,0 +1,13 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+        address _IP_
+        netmask _NETMASK_
+        gateway _GATEWAY_
+        dns-nameservers 8.8.8.8

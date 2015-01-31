@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#
+# Here we will install core packages and services.
+# Ubuntu starts some services upon install.
+# We will prevent automatic starting of those services with an override
+#
+
+echo 'manual' > /etc/init/lxc-net.override
+
 apt-get install -y \
 	apache2-dev \
 	bridge-utils \
