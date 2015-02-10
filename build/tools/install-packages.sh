@@ -11,6 +11,8 @@ echo 'manual' > /etc/init/lxc-net.override
 apt-get install -y \
 	apache2-dev \
 	bridge-utils \
+	curl \
+	debconf-utils \
 	dnsutils \
 	fuse \
 	jwhois \
