@@ -6,13 +6,64 @@
 # We will prevent automatic starting of those services with an override
 #
 
-echo 'manual' > /etc/init/lxc-net.override
+# Initialise some variables
+UPDATE=0;
+UPGRADE=0;
+REMOVE=0;
 
+# Process command line options
+while [ "$#" -gt 0 ]; do
+  case $1 in
+    --update)
+      UPDATE=1
+      shift
+      break
+      ;;
+    --upgrade)
+      UPGRADE=1
+      shift
+      break
+      ;;
+    --remove)
+      REMOVE=1
+      shift
+      break
+      ;;
+  esac
+  shift
+done
+
+# Update if necessary
+if [ "$UPDATE" -eq 1 ];
+then
+  apt-get -y update
+fi
+
+# Upgrade if necessary
+if [ "$UPGRADE" -eq 1 ];
+then
+  apt-get -y upgrade
+fi
+
+# Install debconf utilities for preseeding
+#apt-get install -y debconf-utils
+
+# Preseed answers to questions
+echo "iptables-persistent	iptables-persistent/autosave_v4	boolean	true" | debconf-set-selections
+echo "iptables-persistent	iptables-persistent/autosave_v6	boolean	true" | debconf-set-selections
+
+echo "ntop	ntop/interfaces	string	none" | debconf-set-selections
+echo "ntop	ntop/admin_password_again	password" | debconf-set-selections
+echo "ntop	ntop/admin_password	password" | debconf-set-selections
+
+# Customise which serices should be automatically started prior to their installation
+#echo 'manual' > /etc/init/lxc-net.override
+
+# Install the packages
 apt-get install -y \
 	apache2-dev \
 	bridge-utils \
 	curl \
-	debconf-utils \
 	dnsutils \
 	fuse \
 	jwhois \
@@ -45,3 +96,9 @@ apt-get install -y \
 	telnet \
 	traceroute \
 	wget
+
+# Auto-remove redundant packages if necessary
+if [ "$REMOVE" -eq 1 ];
+then
+  apt-get -y autoremove
+fi
