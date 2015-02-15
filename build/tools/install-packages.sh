@@ -36,17 +36,17 @@ done
 # Update if necessary
 if [ "$UPDATE" -eq 1 ];
 then
-  apt-get -y update
+  apt-get update -y
 fi
 
 # Upgrade if necessary
 if [ "$UPGRADE" -eq 1 ];
 then
-  apt-get -y upgrade
+  apt-get upgrade -y
 fi
 
 # Install debconf utilities for preseeding
-#apt-get install -y debconf-utils
+apt-get install -y debconf-utils
 
 # Preseed answers to questions
 echo "iptables-persistent	iptables-persistent/autosave_v4	boolean	true" | debconf-set-selections
@@ -57,7 +57,7 @@ echo "ntop	ntop/admin_password_again	password" | debconf-set-selections
 echo "ntop	ntop/admin_password	password" | debconf-set-selections
 
 # Customise which serices should be automatically started prior to their installation
-#echo 'manual' > /etc/init/lxc-net.override
+echo 'manual' > /etc/init/lxc-net.override
 
 # Install the packages
 apt-get install -y \
@@ -100,5 +100,5 @@ apt-get install -y \
 # Auto-remove redundant packages if necessary
 if [ "$REMOVE" -eq 1 ];
 then
-  apt-get -y autoremove
+  apt-get autoremove -y
 fi

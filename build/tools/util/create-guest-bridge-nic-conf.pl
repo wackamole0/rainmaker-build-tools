@@ -14,7 +14,7 @@ my $ip = `ip addr show eth1 | fgrep inet | $script`;
 $script = $fsloc . '/get-interface-netmask.pl';
 my $netmask = `ip addr show eth1 | fgrep inet | $script`;
 
-open my $fh, "<", "$fsloc/../config/root/network-interfaces" or die $!;
+open my $fh, "<", "$fsloc/../config/root/nic-br0.cfg" or die $!;
 local $/; # enable localized slurp mode
 my $content = <$fh>;
 close $fh;
