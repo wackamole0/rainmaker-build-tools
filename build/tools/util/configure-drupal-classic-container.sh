@@ -6,8 +6,8 @@ CURDIR=`pwd`
 #
 # Make sure apt is up-to-date and the distro has all current versions of packages installed
 #
-apt-get update
-apt-get upgrade -y
+#apt-get update
+#apt-get upgrade -y
 
 #
 # Here we install common tools.
@@ -17,14 +17,18 @@ apt-get install -y nano git openssh-server openssh-client debconf-utils man
 #
 # Install MySQL (MariaDB)
 #
+
 apt-get install -y software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 add-apt-repository 'deb http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main'
 
+echo "mariadb-server-10.0	mysql-server/root_password	password	root" | debconf-set-selections
+echo "mariadb-server-10.0	mysql-server/root_password_again	password	root" | debconf-set-selections
+
 apt-get -y update
 apt-get install -y mariadb-server mariadb-client
 update-rc.d mysql defaults
-cat "$DIR/config/my.cnf" > /etc/mysql/my.cnf
+cat "$DIR/../config/golden-project-branch/my.cnf" > /etc/mysql/my.cnf
 #service mysql start
 
 #
@@ -49,7 +53,7 @@ apt-get install -y openjdk-7-jre
 #
 apt-get install -y tomcat7 tomcat7-admin
 update-rc.d tomcat7 defaults
-cat "$DIR/config/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
+cat "$DIR/../config/golden-project-branch/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
 
 #
 # Install Solr
@@ -64,11 +68,13 @@ chgrp tomcat7 /var/lib/tomcat7/conf/log4j.properties
 cp /tmp/solr-4.10.3/dist/solr-4.10.3.war /var/lib/tomcat7/webapps/solr.war
 chown tomcat7:tomcat7 /var/lib/tomcat7/webapps/solr.war
 
-cp "$DIR/config/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
+cp "$DIR/../config/golden-project-branch/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
 mkdir /var/lib/solr
-rsync -av rsync -av /tmp/solr-4.10.3/example/solr/ /var/lib/solr/
+rsync -av /tmp/solr-4.10.3/example/solr/ /var/lib/solr/
 chown -R tomcat7:tomcat7 /var/lib/solr
 chmod -R u+rw /var/lib/solr
 chmod go-rwx /var/lib/solr
-cd "$CURDIR"
+
+rm -Rf /tmp/solr-4.10.3
 unlink /tmp/solr-4.10.3.tgz
+cd "$CURDIR"

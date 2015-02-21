@@ -11,6 +11,7 @@ VBOX_NAME = "Rainmaker Builder"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = BOX
+  config.vm.boot_timeout = 600
   config.vm.network "private_network", ip: IP, netmask: NETMASK, auto_config: false
   #config.vm.synced_folder "~/rainmaker", "/mnt/rainmaker-share"
   config.vm.synced_folder "~/Projects/rainmaker-tools", "/mnt/rainmaker-tools"
@@ -18,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.name = VBOX_NAME
     vb.gui = VBOX_GUI
-    vb.customize ["modifyvm", :id, "--memory", RAM, "--nicpromisc2", "allow-all"]
+    vb.customize ["modifyvm", :id, "--memory", RAM, "--nictype2", "Am79C973", "--nicpromisc2", "allow-all"]
   end
 
 end

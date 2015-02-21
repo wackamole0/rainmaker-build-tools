@@ -53,8 +53,8 @@ echo "iptables-persistent	iptables-persistent/autosave_v4	boolean	true" | debcon
 echo "iptables-persistent	iptables-persistent/autosave_v6	boolean	true" | debconf-set-selections
 
 echo "ntop	ntop/interfaces	string	none" | debconf-set-selections
-echo "ntop	ntop/admin_password_again	password" | debconf-set-selections
-echo "ntop	ntop/admin_password	password" | debconf-set-selections
+echo "ntop	ntop/admin_password	password	admin" | debconf-set-selections
+echo "ntop	ntop/admin_password_again	password	admin" | debconf-set-selections
 
 # Customise which serices should be automatically started prior to their installation
 echo 'manual' > /etc/init/lxc-net.override
