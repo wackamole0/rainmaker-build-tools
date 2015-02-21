@@ -14,10 +14,6 @@ GOLDPROJ_LXC_NAME="_golden-proj_"
 GOLDPROJ_LXC_ROOT="/var/lib/lxc/_golden-proj_"
 GOLDPROJ_LXC_ROOT_FS="$GOLDPROJ_LXC_ROOT/rootfs"
 
-# Create "Golden Project Branch" container
-lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-golden-project-branch-container.sh
-exit
-
 lxc-create --template download --name "$GOLDPROJ_LXC_NAME" -- --dist ubuntu --release trusty --arch amd64
 
 # Configure container
