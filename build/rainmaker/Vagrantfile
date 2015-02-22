@@ -2,7 +2,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 BOX       = "wackamole/trusty64"
 HOSTNAME  = "rainmaker"
-DOAMIN    = "localdev"
+DOMAIN    = "localdev"
 MAC       = "08:00:27:bc:da:46"
 IP        = "10.250.0.254"
 NETMASK   = "255.255.0.0"
