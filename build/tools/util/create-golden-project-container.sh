@@ -83,6 +83,7 @@ lxc-start -d -n "$GOLDPROJ_LXC_NAME"
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-rainmaker-user.sh
 
 # Create "Golden Project Branch" container
+sleep 5
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-golden-project-branch-container.sh
 
 # Stop the container
