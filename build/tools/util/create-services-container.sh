@@ -19,11 +19,11 @@ cat "$DIR/../config/root/lxc-services-config" > "$SERVICES_LXC_ROOT/config"
 
 # Configure container network interfaces
 cat "$DIR/../config/services/network-interfaces" > "$SERVICES_LXC_ROOT_FS/etc/network/interfaces"
-cp "$DIR/../config/services/nic-eth0-static.cfg" "$SERVICES_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
+cp "$DIR/../config/services/nic-eth0-build.cfg" "$SERVICES_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
 
 
 # Configure container resolv.conf
-cat "$DIR/../config/services/resolv.conf" > "$SERVICES_LXC_ROOT_FS/etc/resolv.conf"
+echo 'nameserver 8.8.8.8' > "$SERVICES_LXC_ROOT_FS/etc/resolv.conf"
 
 # Configure container hostname
 echo "services.rainmaker.localdev" > "$SERVICES_LXC_ROOT_FS/etc/hostname"
@@ -56,7 +56,9 @@ cat "$DIR/../config/services/dhcpd.host.conf" > "$SERVICES_LXC_ROOT_FS/etc/dhcp/
 cat "$DIR/../config/services/dhcpd.class.conf" > "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.class.conf"
 cat "$DIR/../config/services/dhcpd.subnet.conf" > "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.subnet.conf"
 mkdir "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.host.conf.d"
+cp $DIR/../config/services/dhcpd.host.conf.d/* "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.host.conf.d/"
 mkdir "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.class.conf.d"
+cp $DIR/../config/services/dhcpd.class.conf.d/* "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.class.conf.d/"
 mkdir "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.subnet.conf.d"
 cp $DIR/../config/services/dhcpd.subnet.conf.d/* "$SERVICES_LXC_ROOT_FS/etc/dhcp/dhcpd.subnet.conf.d/"
 lxc-attach -n "$SERVICES_LXC_NAME" -- update-rc.d isc-dhcp-server defaults
@@ -74,8 +76,17 @@ mkdir "$SERVICES_LXC_ROOT_FS/etc/bind/db.rainmaker"
 cp $DIR/../config/services/db.rainmaker/* "$SERVICES_LXC_ROOT_FS/etc/bind/db.rainmaker/"
 lxc-attach -n "$SERVICES_LXC_NAME" -- update-rc.d bind9 defaults
 
+# Cleanup
+lxc-attach -n "$SERVICES_LXC_NAME" -- apt-get clean
+lxc-attach -n "$SERVICES_LXC_NAME" -- cat /dev/null > ~/.bash_history
+lxc-attach -n "$SERVICES_LXC_NAME" -- history -c
+
 # Stop the container
 lxc-stop -n "$SERVICES_LXC_NAME"
+
+# Replace nic config used for building image with config that will be used in production
+cp "$DIR/../config/services/nic-eth0-build.cfg" "$SERVICES_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
+cat "$DIR/../config/services/resolv.conf" > "$SERVICES_LXC_ROOT_FS/etc/resolv.conf"
 
 # Remove the build tools now we are finished with them
 rm -Rf "$SERVICES_LXC_ROOT_FS/opt/rainmaker-tools"

@@ -19,3 +19,17 @@ DIR=`dirname $0`
 #
 
 "$DIR/util/create-golden-project-container.sh"
+
+#
+# Replace bridge config used for building image with config that will be used in production
+#
+cp "$DIR/config/root/nic-br0.cfg" /etc/network/interfaces.d/br0.cfg
+cp "$DIR/config/root/resolv.conf" /etc/resolv.conf
+
+#
+# Cleanup
+#
+apt-get clean
+dd if=/dev/zero of=/EMPTY bs=1M
+rm -f /EMPTY
+cat /dev/null > ~/.bash_history && history -c

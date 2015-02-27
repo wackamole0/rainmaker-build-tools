@@ -6,4 +6,5 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
+#include "/etc/bind/named.conf.rainmaker/example.conf";
 include "/etc/bind/named.conf.rainmaker/rainmaker.conf";

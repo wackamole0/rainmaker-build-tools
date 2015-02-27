@@ -23,7 +23,7 @@ brctl addbr br0 && brctl addif br0 eth1
 
 # Configure network interfaces
 cp "$DIR/../config/root/nic-eth1.cfg" /etc/network/interfaces.d/eth1.cfg
-cp "$DIR/../config/root/nic-br0-static.cfg" /etc/network/interfaces.d/br0.cfg
+cp "$DIR/../config/root/nic-br0-build.cfg" /etc/network/interfaces.d/br0.cfg
 
 # Configure packet forwarding and exclude bridges from appearing in iptables
 cat "$DIR/../config/root/sysctl.conf" > /etc/sysctl.conf

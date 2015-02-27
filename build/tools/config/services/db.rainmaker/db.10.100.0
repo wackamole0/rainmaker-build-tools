@@ -10,5 +10,5 @@ $TTL    604800
                 IN      NS      ns.rainmaker.localdev.
 
 ; PTR Records
-254             IN      PTR     rainmaker.localdev.             ; 10.250.0.254
-2               IN      PTR     ns.rainmaker.localdev.          ; 10.250.0.2
+254             IN      PTR     rainmaker.localdev.             ; 10.100.0.254
+2               IN      PTR     ns.rainmaker.localdev.          ; 10.100.0.2

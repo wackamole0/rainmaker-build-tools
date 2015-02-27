@@ -25,13 +25,13 @@ cat "$DIR/../config/root/lxc-golden-project-config" > "$GOLDPROJ_LXC_ROOT/config
 
 # Configure network interfaces
 cat "$DIR/../config/golden-project/network-interfaces" > "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces"
-cp "$DIR/../config/golden-project/nic-eth0-static.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
+cp "$DIR/../config/golden-project/nic-eth0-build.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
 
 # Configure packet forwarding and exclude bridges from appearing in iptables
 cat "$DIR/../config/golden-project/sysctl.conf" > "$GOLDPROJ_LXC_ROOT_FS/etc/sysctl.conf"
 
 # Configure container resolv.conf
-cat "$DIR/../config/golden-project/resolv.conf" > "$GOLDPROJ_LXC_ROOT_FS/etc/resolv.conf"
+echo 'nameserver 8.8.8.8' > "$GOLDPROJ_LXC_ROOT_FS/etc/resolv.conf"
 
 # Configure hostname
 echo "golden-project.localdev" > "$GOLDPROJ_LXC_ROOT_FS/etc/hostname"
@@ -52,7 +52,7 @@ lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/install-packages.sh -
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- brctl addbr br0
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- brctl addif br0 eth0
 cp "$DIR/../config/golden-project/nic-eth0.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
-cp "$DIR/../config/golden-project/nic-br0.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/br0.cfg"
+cp "$DIR/../config/golden-project/nic-br0-build.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/br0.cfg"
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- ifdown br0
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- ifdown eth0
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- ifup br0
@@ -86,8 +86,17 @@ lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-rainmaker
 sleep 5
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-golden-project-branch-container.sh
 
+# Cleanup
+lxc-attach -n "$GOLDPROJ_LXC_NAME" -- apt-get clean
+lxc-attach -n "$GOLDPROJ_LXC_NAME" -- cat /dev/null > ~/.bash_history
+lxc-attach -n "$GOLDPROJ_LXC_NAME" -- history -c
+
 # Stop the container
 lxc-stop -n "$GOLDPROJ_LXC_NAME"
+
+# Replace bridge config used for building image with config that will be used in production
+cp "$DIR/../config/golden-project/nic-br0.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/br0.cfg"
+cat "$DIR/../config/golden-project/resolv.conf" > "$GOLDPROJ_LXC_ROOT_FS/etc/resolv.conf"
 
 # Remove the build tools now we are finished with them
 rm -Rf "$GOLDPROJ_LXC_ROOT_FS/opt/rainmaker-tools"

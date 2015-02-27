@@ -28,7 +28,7 @@ echo "mariadb-server-10.0	mysql-server/root_password_again	password	root" | debc
 apt-get -y update
 apt-get install -y mariadb-server mariadb-client
 update-rc.d mysql defaults
-cat "$DIR/../config/golden-project-branch/my.cnf" > /etc/mysql/my.cnf
+cat "$DIR/../config/profiles/drupal-classic/my.cnf" > /etc/mysql/my.cnf
 #service mysql start
 
 #
@@ -53,7 +53,7 @@ apt-get install -y openjdk-7-jre
 #
 apt-get install -y tomcat7 tomcat7-admin
 update-rc.d tomcat7 defaults
-cat "$DIR/../config/golden-project-branch/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
+cat "$DIR/../config/profiles/drupal-classic/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
 
 #
 # Install Solr
@@ -68,7 +68,7 @@ chgrp tomcat7 /var/lib/tomcat7/conf/log4j.properties
 cp /tmp/solr-4.10.3/dist/solr-4.10.3.war /var/lib/tomcat7/webapps/solr.war
 chown tomcat7:tomcat7 /var/lib/tomcat7/webapps/solr.war
 
-cp "$DIR/../config/golden-project-branch/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
+cp "$DIR/../config/profiles/drupal-classic/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
 mkdir /var/lib/solr
 rsync -av /tmp/solr-4.10.3/example/solr/ /var/lib/solr/
 chown -R tomcat7:tomcat7 /var/lib/solr
