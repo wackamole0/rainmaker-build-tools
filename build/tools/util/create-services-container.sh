@@ -85,7 +85,7 @@ lxc-attach -n "$SERVICES_LXC_NAME" -- history -c
 lxc-stop -n "$SERVICES_LXC_NAME"
 
 # Replace nic config used for building image with config that will be used in production
-cp "$DIR/../config/services/nic-eth0-build.cfg" "$SERVICES_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
+cp "$DIR/../config/services/nic-eth0.cfg" "$SERVICES_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
 cat "$DIR/../config/services/resolv.conf" > "$SERVICES_LXC_ROOT_FS/etc/resolv.conf"
 
 # Remove the build tools now we are finished with them

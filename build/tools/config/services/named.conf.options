@@ -15,6 +15,11 @@ options {
         allow-recursion { trusted; };
         allow-transfer { none; };
         auth-nxdomain no;    # conform to RFC1035
+        
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
 
         dnssec-enable yes;
         dnssec-validation no;
