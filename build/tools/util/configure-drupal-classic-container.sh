@@ -26,22 +26,38 @@ echo "mariadb-server-10.0	mysql-server/root_password	password	root" | debconf-se
 echo "mariadb-server-10.0	mysql-server/root_password_again	password	root" | debconf-set-selections
 
 apt-get -y update
-apt-get install -y mariadb-server mariadb-client
+apt-get install -y mariadb-server mariadb-client mysqltuner
 update-rc.d mysql defaults
 cat "$DIR/../config/profiles/drupal-classic/my.cnf" > /etc/mysql/my.cnf
-#service mysql start
+service mysql start
+
+# Create default Drupal database and user
+mysql -u root -proot -e "CREATE DATABASE drupal CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY 'drupal';"
+mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON drupal.* TO 'drupal'@'%' IDENTIFIED BY 'drupal';"
 
 #
 # Install Apache Httpd
 #
+
 apt-get install -y apache2 apache2-utils
+a2enmod rewrite
 update-rc.d apache2 defaults
-#service apache2 start
+service apache2 start
+
+# Create default Drupal site
+mv /var/www/html /var/www/httpdocs
+mkdir -p /var/www/html
+mv /var/www/httpdocs /var/www/html/httpdocs
+chown -R rainmaker:www-data /var/www/html
+chmod -R ug+rw /var/www/html
+cat "$DIR/../config/profiles/drupal-classic/apache2-default.conf" > /etc/apache2/sites-available/000-default.conf
 
 #
 # Install PHP + APC
 #
 apt-get install -y php5 php-apc php5-mysql php5-gd php-pear
+cat "$DIR/../config/profiles/drupal-classic/php.ini" > /etc/php5/apache2/php.ini
 
 #
 # Install Java 7 (required by Tomcat and Solr)
@@ -78,3 +94,32 @@ chmod go-rwx /var/lib/solr
 rm -Rf /tmp/solr-4.10.3
 unlink /tmp/solr-4.10.3.tgz
 cd "$CURDIR"
+
+# Setup a Solr core for Drupal
+mkdir /var/lib/solr/drupal
+rsync -av /var/lib/solr/collection1 /var/lib/solr/drupal
+echo 'name=drupal' > /var/lib/solr/drupal/core.properties
+wget "http://ftp.drupal.org/files/projects/apachesolr-7.x-1.7.tar.gz" -O /tmp/apachesolr-7.x-1.7.tar.gz
+cd /tmp
+tar -xzf /tmp/apachesolr-7.x-1.7.tar.gz
+rsync -av /tmp/apachesolr/solr-conf/solr-4.x/ /var/lib/solr/drupal/conf/
+chown -R tomcat7:tomcat7 /var/lib/solr/drupal
+rm -Rf /tmp/apachesolr
+unlink /tmp/apachesolr-7.x-1.7.tar.gz
+cd "$CURDIR"
+
+# Make rainmaker user a member of www-data
+usermod -a -G www-data rainmaker
+
+# Install Drush
+apt-get install -y zip unzip php-console-table
+wget "https://github.com/drush-ops/drush/archive/6.5.0.zip" -O /tmp/drush-6.5.0.zip
+cd /tmp
+unzip /tmp/drush-6.5.0.zip
+mv /tmp/drush-6.5.0 /opt/drush
+chown -R root:root /opt/drush
+chmod u+x /opt/drush/drush
+unlink /tmp/drush-6.5.0.zip
+cd "$CURDIR"
+
+

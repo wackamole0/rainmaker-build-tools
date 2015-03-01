@@ -152,5 +152,7 @@ vagrant suspend
 
 ## Changelog
 
-v0.1: Initial working infrastructure and Drupal container profile
+- v0.2: Tweaks and optimisations to the Drupal Classic container profile
+
+- v0.1: Initial working infrastructure and Drupal container profile
 

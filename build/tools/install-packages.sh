@@ -95,7 +95,9 @@ apt-get install -y \
 	tcpdump \
 	telnet \
 	traceroute \
-	wget
+	unzip \
+	wget \
+	zip
 
 # Auto-remove redundant packages if necessary
 if [ "$REMOVE" -eq 1 ];
