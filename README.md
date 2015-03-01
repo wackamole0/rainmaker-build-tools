@@ -24,11 +24,15 @@ Create the file /etc/resolver/localdev with the following content: nameserver 10
 
 1. Create a new directory
 
-2. Navigate into new directory
+2. Clone the Rainmaker repo into the new directory
 
-3. Copy the Vagrantfile from the root of the Rainmaker repo to new directory
+4. Navigate into new directory
 
-4. vagrant up
+5. Copy the Vagrantfile from the root of the Rainmaker repo to new directory
+
+6. vagrant up
+
+7. After the box has fully booted run the script mount-nfs.sh from the new directory
 
 ### Starting Rainmaker (subsequent starts after the first)
 
@@ -148,9 +152,21 @@ vagrant suspend
 
 24. Restart the DNS service: service bind9 restart
 
-25. Start new container
+25. Connect via shell to Rainmaker's Virtualbox VM
+
+26. Add new entry to /etc/fstab for the new project branch container
+
+27. Mount the new project branch container's site
+
+28. Add a new export to the NFS exports in /etc/exports
+
+29. Reload the NFS service with: service nfs-kernel-server reload
+
+30. Start new container
 
 ## Changelog
+
+- v0.3: Adding NFS server to export project branch container sites
 
 - v0.2: Tweaks and optimisations to the Drupal Classic container profile
 

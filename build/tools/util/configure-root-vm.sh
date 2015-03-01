@@ -64,3 +64,10 @@ cat "$DIR/../config/root/lxc-default.conf" > /etc/lxc/default.conf
 
 # Create rainmaker user
 "$DIR/create-rainmaker-user.sh"
+
+# Setup NFS server
+apt-get install -y nfs-kernel-server
+mkdir -p /export/rainmaker
+chown root:root /export/rainmaker
+cat "$DIR/../config/root/exports" > /etc/exports
+cat "$DIR/../config/root/fstab" > /etc/fstab
