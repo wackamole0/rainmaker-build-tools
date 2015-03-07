@@ -10,6 +10,21 @@ DIR=`dirname $0`
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
 #
+# Prepare the disks
+#
+if [ -e /dev/sdb ];
+then
+  sfdisk /dev/sdb < "$DIR/../config/root/lxc-disk.sfdisk"
+  mkfs.ext4 /dev/sdb1
+  "$DIR/enable-lxc-rootfs-mount.pl" > /etc/fstab
+  mkdir -p /var/lib/lxc
+  chmod go-rwx /var/lib/lxc
+  mount /var/lib/lxc
+else
+  cat "$DIR/../config/root/fstab" > /etc/fstab
+fi
+
+#
 # Install the packages required by rainmaker
 #
 "$DIR/../install-packages.sh" --update --upgrade --remove
@@ -46,6 +61,10 @@ cat "$DIR/../config/root/hosts" > /etc/hosts
 cat "$DIR/../config/root/iptables-rules.v4" > /etc/iptables/rules.v4
 iptables-restore < /etc/iptables/rules.v4
 
+# Make sure Kernel support for btrfs is enabled
+modprobe btrfs
+echo 'btrfs' >> /etc/modules
+
 #
 # Configure LXC
 #
@@ -70,4 +89,3 @@ apt-get install -y nfs-kernel-server
 mkdir -p /export/rainmaker
 chown root:root /export/rainmaker
 cat "$DIR/../config/root/exports" > /etc/exports
-cat "$DIR/../config/root/fstab" > /etc/fstab

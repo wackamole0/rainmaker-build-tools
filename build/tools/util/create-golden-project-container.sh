@@ -16,6 +16,13 @@ GOLDPROJ_LXC_ROOT_FS="$GOLDPROJ_LXC_ROOT/rootfs"
 
 lxc-create --template download --name "$GOLDPROJ_LXC_NAME" -- --dist ubuntu --release trusty --arch amd64
 
+# Create btrfs filesystem for LXC
+dd if=/dev/zero of="$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc-rootfs.btrfs" bs=1024 count=20971520
+mkfs.btrfs "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc-rootfs.btrfs"
+mkdir -p "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc"
+chmod go-rwx "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc"
+mount -t btrfs "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc-rootfs.btrfs" "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc"
+
 # Configure container
 cat "$DIR/../config/root/lxc-golden-project-config" > "$GOLDPROJ_LXC_ROOT/config"
 
@@ -97,6 +104,9 @@ lxc-stop -n "$GOLDPROJ_LXC_NAME"
 # Replace bridge config used for building image with config that will be used in production
 cp "$DIR/../config/golden-project/nic-br0.cfg" "$GOLDPROJ_LXC_ROOT_FS/etc/network/interfaces.d/br0.cfg"
 cat "$DIR/../config/golden-project/resolv.conf" > "$GOLDPROJ_LXC_ROOT_FS/etc/resolv.conf"
+
+# Unmount the container's LXC Btrfs filesystem
+umount "$GOLDPROJ_LXC_ROOT_FS/var/lib/lxc"
 
 # Remove the build tools now we are finished with them
 rm -Rf "$GOLDPROJ_LXC_ROOT_FS/opt/rainmaker-tools"
