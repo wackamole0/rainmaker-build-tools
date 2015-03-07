@@ -32,6 +32,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   end
 
-  #config.vm.provision "shell", inline: "sudo /mnt/rainmaker-tools/build/tools/prepare-rainmaker-box.sh | tee /var/log/rainmaker-build.log"
+  config.vm.provision "shell", inline: "sudo /mnt/rainmaker-tools/build/tools/prepare-rainmaker-box.sh | sudo tee /var/log/rainmaker-build.log"
 
 end
