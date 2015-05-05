@@ -97,7 +97,7 @@ cd "$CURDIR"
 
 # Setup a Solr core for Drupal
 mkdir /var/lib/solr/drupal
-rsync -av /var/lib/solr/collection1 /var/lib/solr/drupal
+rsync -av /var/lib/solr/collection1/ /var/lib/solr/drupal/
 echo 'name=drupal' > /var/lib/solr/drupal/core.properties
 wget "http://ftp.drupal.org/files/projects/apachesolr-7.x-1.7.tar.gz" -O /tmp/apachesolr-7.x-1.7.tar.gz
 cd /tmp
@@ -118,7 +118,7 @@ cd /tmp
 unzip /tmp/drush-6.5.0.zip
 mv /tmp/drush-6.5.0 /opt/drush
 chown -R root:root /opt/drush
-chmod u+x /opt/drush/drush
+chmod a+x /opt/drush/drush
 unlink /tmp/drush-6.5.0.zip
 cd "$CURDIR"
 
