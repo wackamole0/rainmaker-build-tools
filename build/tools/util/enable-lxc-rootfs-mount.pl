@@ -11,6 +11,6 @@ local $/;
 my $content = <$fh>;
 close $fh;
 
-$content =~ s/#\/dev\/sdb1/\/dev\/sdb1/;
+$content =~ s/#\/dev\/mapper\/lxc--vg-root--lxc/\/dev\/mapper\/lxc--vg-root--lxc/;
 
 print $content;

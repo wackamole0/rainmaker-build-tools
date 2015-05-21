@@ -14,8 +14,13 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 #
 if [ -e /dev/sdb ];
 then
+  apt-get update -y
+  apt-get install -y btrfs-tools
   sfdisk /dev/sdb < "$DIR/../config/root/lxc-disk.sfdisk"
-  mkfs.ext4 /dev/sdb1
+  pvcreate /dev/sdb1
+  vgcreate lxc-vg /dev/sdb1
+  lvcreate -l 100%FREE -n root-lxc lxc-vg
+  mkfs.btrfs /dev/lxc-vg/root-lxc
   "$DIR/enable-lxc-rootfs-mount.pl" > /etc/fstab
   mkdir -p /var/lib/lxc
   chmod go-rwx /var/lib/lxc
@@ -80,6 +85,8 @@ fi
 
 # Configure LXC defaults
 cat "$DIR/../config/root/lxc-default.conf" > /etc/lxc/default.conf
+
+cp -R "$DIR/../config/root/lxc-templates/*" /usr/share/lxc/templates
 
 # Create rainmaker user
 "$DIR/create-rainmaker-user.sh"

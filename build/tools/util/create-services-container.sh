@@ -12,7 +12,7 @@ SERVICES_LXC_NAME="services"
 SERVICES_LXC_ROOT="/var/lib/lxc/services"
 SERVICES_LXC_ROOT_FS="$SERVICES_LXC_ROOT/rootfs"
 
-lxc-create --template download --name "$SERVICES_LXC_NAME" -- --dist ubuntu --release trusty --arch amd64
+lxc-create --name "$SERVICES_LXC_NAME" --bdev btrfs --template download -- --dist ubuntu --release trusty --arch amd64
 
 # Configure container
 cat "$DIR/../config/root/lxc-services-config" > "$SERVICES_LXC_ROOT/config"
@@ -39,6 +39,7 @@ cat "$DIR/../config/services/hosts" > "$SERVICES_LXC_ROOT_FS/etc/hosts"
 cp -R /mnt/rainmaker-tools/build/tools "$SERVICES_LXC_ROOT_FS/opt/rainmaker-tools"
 
 lxc-start -d -n "$SERVICES_LXC_NAME"
+sleep 10
 
 # Install our core packages into the container
 lxc-attach -n "$SERVICES_LXC_NAME" -- /opt/rainmaker-tools/install-packages.sh --update --upgrade --remove

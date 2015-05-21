@@ -62,33 +62,35 @@ vagrant suspend
 
 9. Set the container's hostname to resolve to 127.0.1.1 in /var/lib/lxc/myproject/rootfs/etc/hosts
 
-10. Connect via shell to Rainmaker's services container
+10. Configure LXC cache mount for rainmaker rootfs images and mount
 
-11. Navigate to /etc/dhcp
+11. Connect via shell to Rainmaker's services container
 
-12. Edit dhcpd.subnet.conf.d/10.100.0.0.conf as necessary
+12. Navigate to /etc/dhcp
 
-13. Copy dhcpd.host.conf.d/localdev.example.cluster.conf to dhcpd.host.conf.d/localdev.myproject.cluster.conf
+13. Edit dhcpd.subnet.conf.d/10.100.0.0.conf as necessary
 
-14. Edit dhcpd.host.conf.d/localdev.myproject.cluster.conf as necessary
+14. Copy dhcpd.host.conf.d/localdev.example.cluster.conf to dhcpd.host.conf.d/localdev.myproject.cluster.conf
 
-15. Add the following line to the file dhcpd.host.conf: include "include "/etc/dhcp/dhcpd.host.conf.d/localdev.myproject.cluster.conf";
+15. Edit dhcpd.host.conf.d/localdev.myproject.cluster.conf as necessary
 
-16. Copy dhcpd.class.conf.d/localdev.example.conf to dhcpd.class.conf.d/localdev.myproject.conf
+16. Add the following line to the file dhcpd.host.conf: include "include "/etc/dhcp/dhcpd.host.conf.d/localdev.myproject.cluster.conf";
 
-17. Edit dhcpd.class.conf.d/localdev.myproject.conf as necessary
+17. Copy dhcpd.class.conf.d/localdev.example.conf to dhcpd.class.conf.d/localdev.myproject.conf
 
-18. Add the following line to the file dhcpd.class.conf: include "include "/etc/dhcp/dhcpd.class.conf.d/localdev.myproject.conf";
+18. Edit dhcpd.class.conf.d/localdev.myproject.conf as necessary
 
-19. Restart the DHCP service: service isc-dhcp-server restart
+19. Add the following line to the file dhcpd.class.conf: include "include "/etc/dhcp/dhcpd.class.conf.d/localdev.myproject.conf";
 
-20. Navigate to /etc/bind
+20. Restart the DHCP service: service isc-dhcp-server restart
 
-21. Copy db.rainmaker/db.example.localdev to db.rainmaker/db.myproject.localdev
+21. Navigate to /etc/bind
 
-22. Edit db.rainmaker/db.myproject.localdev as necessary
+22. Copy db.rainmaker/db.example.localdev to db.rainmaker/db.myproject.localdev
 
-23. Copy db.rainmaker/db.10.100.1.example to db.rainmaker/db.10.100.1
+23. Edit db.rainmaker/db.myproject.localdev as necessary
+
+24. Copy db.rainmaker/db.10.100.1.example to db.rainmaker/db.10.100.1
 
 25. Edit db.rainmaker/db.10.100.1 as necessary
 

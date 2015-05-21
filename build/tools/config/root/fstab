@@ -15,10 +15,10 @@ UUID=6dec1c15-9d39-44de-b214-af0c4c99f0a4 /boot           ext2    defaults      
 # Rainmaker - Start #
 
 # Root LXC Mount #
-/dev/sdb1 /var/lib/lxc ext4 defaults 0 3
+#/dev/mapper/lxc--vg-root--lxc /var/lib/lxc btrfs rw 0 3
 
-# Container LXC FS Mount #
-#/var/lib/lxc/_golden-proj_/rootfs/var/lib/lxc-rootfs.btrfs /var/lib/lxc/_golden-proj_/rootfs/var/lib/lxc btrfs rw 0 0
+# Rainmaker Project Tools Mounts #
+#/var/cache/lxc/rainmaker /var/lib/lxc/_golden-proj_/rootfs/var/cache/lxc/rainmaker none rw,bind 0 0
 
 # Rainmaker NFS Mounts #
 #/var/lib/lxc/_golden-proj_/rootfs/var/lib/lxc/_golden-branch_/rootfs/var/www/html /export/rainmaker/_golden-proj_._golden-branch_ none rw,bind 0 0

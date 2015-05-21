@@ -21,6 +21,18 @@ DIR=`dirname $0`
 "$DIR/util/create-golden-project-container.sh"
 
 #
+# Create LXC rootfs snapshots for "Golden Project" and "Golden Project Branch" LXC templates
+#
+
+"$DIR/util/create-container-rootfs-snapshost.sh"
+
+#
+# Destroy "Golden Project" and "Golden Project Branch" containers
+#
+
+"$DIR/util/destroy-golden-containers.sh"
+
+#
 # Replace bridge config used for building image with config that will be used in production
 #
 cp "$DIR/config/root/nic-br0.cfg" /etc/network/interfaces.d/br0.cfg

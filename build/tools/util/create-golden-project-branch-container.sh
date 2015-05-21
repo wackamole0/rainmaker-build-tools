@@ -14,7 +14,7 @@ GOLDBRANCH_LXC_NAME="_golden-branch_"
 GOLDBRANCH_LXC_ROOT="/var/lib/lxc/_golden-branch_"
 GOLDBRANCH_LXC_ROOT_FS="$GOLDBRANCH_LXC_ROOT/rootfs"
 
-lxc-create --template download --name "$GOLDBRANCH_LXC_NAME" -- --dist ubuntu --release trusty --arch amd64
+lxc-create --name "$GOLDBRANCH_LXC_NAME" --bdev btrfs --template download -- --dist ubuntu --release trusty --arch amd64
 
 # Configure container
 cat "$DIR/../config/golden-project/lxc-golden-project-branch-config" > "$GOLDBRANCH_LXC_ROOT/config"
@@ -39,6 +39,7 @@ cp -R "$DIR/../../rainmaker-tools" "$GOLDBRANCH_LXC_ROOT_FS/opt/rainmaker-tools"
 
 # Start the container
 lxc-start -d -n "$GOLDBRANCH_LXC_NAME"
+sleep 10
 
 # Install our core packages into the container
 lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- /opt/rainmaker-tools/install-packages.sh --update --upgrade --remove
@@ -56,6 +57,8 @@ lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- history -c
 
 # Stop the containers
 lxc-stop -n "$GOLDBRANCH_LXC_NAME"
+
+cp -R "$DIR/../config/root/lxc-templates/*" "$GOLDBRANCH_LXC_ROOT_FS/usr/share/lxc/templates"
 
 # Replace adapter config used for building image with config that will be used in production
 cp "$DIR/../config/golden-project-branch/nic-eth0.cfg" "$GOLDBRANCH_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"

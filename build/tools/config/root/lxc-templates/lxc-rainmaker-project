@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Crash on any error
+set -e
+
+# Load LXC defaults
+if [ -r /etc/default/lxc ]; then
+    . /etc/default/lxc
+fi
+
+# The install function installs the minimal operating system in the LXC
+install() {
+    ROOTDIR=$1
+
+    rsync -Ha /var/cache/lxc/rainmaker/project/0.1/rootfs/ $ROOTDIR/
+}
+
+# Create the configuration file. Shamelessly copied from the Ubuntu template
+configure() {
+    ROOTDIR=$1
+    NAME=$2
+    PATH=/var/lib/lxc/$NAME
+    TTYDIR=
+
+}
+
+# Set up the path option
+options=$(getopt -o n:p: -l path:,name:,rootfs: -- "$@")
+
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+eval set -- "$options"
+
+# Fetch command line parameters
+while true; do
+    case "$1" in
+        -p|--path)      path=$2; shift 2;;
+        -n|--name)      name=$2; shift 2;;
+        --rootfs)       rootfs=$2; shift 2;;
+        --)             shift 1; break ;;
+        *)              break ;;
+    esac
+done
+
+if [ -z "$path" ]; then
+    echo "'path' parameter is required"
+    exit 1
+fi
+
+if [ "$(id -u)" != "0" ]; then
+    echo "This script should be run as 'root'"
+    exit 1
+fi
+
+# detect rootfs
+config="$path/config"
+# if $rootfs exists here, it was passed in with --rootfs
+if [ -z "$rootfs" ]; then
+    if grep -q '^lxc.rootfs' $config 2>/dev/null ; then
+        rootfs=$(awk -F= '/^lxc.rootfs =/{ print $2 }' $config)
+    else
+        rootfs=$path/rootfs
+    fi
+fi
+
+install $rootfs
+
+configure $rootfs $name
