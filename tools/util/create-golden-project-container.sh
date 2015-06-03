@@ -42,7 +42,7 @@ echo "golden-project.localdev" > "$GOLDPROJ_LXC_ROOT_FS/etc/hostname"
 cat "$DIR/../config/golden-project/hosts" > "$GOLDPROJ_LXC_ROOT_FS/etc/hosts"
 
 # Copy build tools into container and we will remove them once container configuration is complete
-cp -R /mnt/rainmaker-tools/build/tools "$GOLDPROJ_LXC_ROOT_FS/opt/rainmaker-tools"
+cp -R /mnt/rainmaker-tools/tools "$GOLDPROJ_LXC_ROOT_FS/opt/rainmaker-tools"
 
 # Start the container
 lxc-start -d -n "$GOLDPROJ_LXC_NAME"
@@ -79,7 +79,7 @@ echo 'manual' > "$GOLDPROJ_LXC_ROOT_FS/etc/init/lxc-net.override"
 # Configure LXC defaults
 cat "$DIR/../config/golden-project/lxc-default.conf" > "$GOLDPROJ_LXC_ROOT_FS/etc/lxc/default.conf"
 
-cp -R "$DIR/../config/root/lxc-templates/*" "$GOLDPROJ_LXC_ROOT_FS/usr/share/lxc/templates"
+cp -R $DIR/../config/root/lxc-templates/* "$GOLDPROJ_LXC_ROOT_FS/usr/share/lxc/templates"
 
 # Start the container
 lxc-start -d -n "$GOLDPROJ_LXC_NAME"
@@ -87,10 +87,6 @@ sleep 10
 
 # Create rainmaker user
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-rainmaker-user.sh
-
-# Create "Golden Project Branch" container
-sleep 5
-lxc-attach -n "$GOLDPROJ_LXC_NAME" -- /opt/rainmaker-tools/util/create-golden-project-branch-container.sh
 
 # Cleanup
 lxc-attach -n "$GOLDPROJ_LXC_NAME" -- apt-get clean

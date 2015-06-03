@@ -35,7 +35,7 @@ cat "$DIR/../config/golden-project-branch/hosts" > "$GOLDBRANCH_LXC_ROOT_FS/etc/
 # Configure container iptables
 
 # Copy build tools into container and we will remove them once container configuration is complete
-cp -R "$DIR/../../rainmaker-tools" "$GOLDBRANCH_LXC_ROOT_FS/opt/rainmaker-tools"
+cp -R /mnt/rainmaker-tools/tools "$GOLDBRANCH_LXC_ROOT_FS/opt/rainmaker-tools"
 
 # Start the container
 lxc-start -d -n "$GOLDBRANCH_LXC_NAME"
@@ -58,7 +58,7 @@ lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- history -c
 # Stop the containers
 lxc-stop -n "$GOLDBRANCH_LXC_NAME"
 
-cp -R "$DIR/../config/root/lxc-templates/*" "$GOLDBRANCH_LXC_ROOT_FS/usr/share/lxc/templates"
+cp -R $DIR/../config/root/lxc-templates/* "$GOLDBRANCH_LXC_ROOT_FS/usr/share/lxc/templates"
 
 # Replace adapter config used for building image with config that will be used in production
 cp "$DIR/../config/golden-project-branch/nic-eth0.cfg" "$GOLDBRANCH_LXC_ROOT_FS/etc/network/interfaces.d/eth0.cfg"
