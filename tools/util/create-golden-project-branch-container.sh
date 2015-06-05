@@ -6,6 +6,35 @@
 #
 DIR=`dirname $0`
 
+profile=""
+
+# Set up the path option
+options=$(getopt -o p -l profile: -- "$@")
+
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+eval set -- "$options"
+
+# Fetch command line parameters
+while true; do
+	case "$1" in
+        --profile)      profile=$2; shift 2;;
+        *)              break ;;
+    esac
+done
+
+profile_path=""
+if [ -n "$profile" ]; then
+	profile_path="$DIR/project-branch-profiles/configure-$profile-container.sh"
+	echo "$profile_path"
+	if [ ! -f "$profile_path" ]; then
+    	echo "profile '$profile' does not exist"
+	    exit 1
+	fi
+fi
+
 #
 # Create "Golden Project Branch" container
 #
@@ -48,7 +77,10 @@ lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- /opt/rainmaker-tools/install-packages.sh
 lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- /opt/rainmaker-tools/util/create-rainmaker-user.sh
 
 # Install "Drupal Classic" profile
-lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- /opt/rainmaker-tools/util/configure-drupal-classic-container.sh
+if [ -n "$profile" ]; then
+	#lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- /opt/rainmaker-tools/util/configure-drupal-classic-container.sh
+	lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- "/opt/rainmaker-tools/util/project-branch-profiles/configure-$profile-container.sh"
+fi
 
 # Cleanup
 lxc-attach -n "$GOLDBRANCH_LXC_NAME" -- apt-get clean
