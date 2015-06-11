@@ -1,9 +1,24 @@
 #!/bin/bash
 
+usage() {
+    cat << EOF
+
+usage: $0 --profile <profile> --version <version> [-hcp]
+
+OPTIONS:
+   -h,--help           : show this message
+   -c,--create         : build project branch profile
+   -p,--publish        : publish project branch profile rootfs
+   --profile <profile> : the branch profile to build
+   --version <version> : the version of the branch profile that we are building
+
+EOF
+}
+
 dir=`dirname $0`
 
 # Set up the path option
-options=$(getopt -o cp -l profile:,version:,create,publish -- "$@")
+options=$(getopt -o hcp -l help,profile:,version:,create,publish -- "$@")
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -17,6 +32,7 @@ publish=1
 # Fetch command line parameters
 while true; do
 	case "$1" in
+        -h|--help)      usage; exit 1;;
         -c|--create)    create=1; publish=0; shift 1;;
         -p|--publish)   publish=1; create=0; shift 1;;
         --profile)      profile=$2; shift 2;;

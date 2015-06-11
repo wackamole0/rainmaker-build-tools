@@ -1,11 +1,27 @@
 #!/bin/bash
 
+usage() {
+    cat << EOF
+
+usage: $0 [--restart]
+
+OPTIONS:
+   -h,--help           : show this message
+   --restart           : restart the network interfaces
+
+EOF
+}
+
 DIR=`dirname $0`
 
 RESTART_NETWORKING=0;
 
 while [ "$#" -gt 0 ]; do
   case $1 in
+    -h|--help)
+      usage
+      exit 1
+      ;;
     --restart)
       RESTART_NETWORKING=1
       shift

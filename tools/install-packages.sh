@@ -6,6 +6,20 @@
 # We will prevent automatic starting of those services with an override
 #
 
+usage() {
+    cat << EOF
+
+usage: $0 [--help] [--update] [--upgrade] [--remove]
+
+OPTIONS:
+   -h,--help  : show this message
+   --update   : update Apt before installing packages
+   --upgrade  : upgrade currently installed packages before installing new packages
+   --remove   : after installing packages automatically remove packages we no longer need
+
+EOF
+}
+
 # Initialise some variables
 UPDATE=0;
 UPGRADE=0;
@@ -14,6 +28,10 @@ REMOVE=0;
 # Process command line options
 while [ "$#" -gt 0 ]; do
   case $1 in
+	-h|--help)
+	  usage
+	  exit 1
+      ;;
     --update)
       UPDATE=1
       shift
