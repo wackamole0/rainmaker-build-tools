@@ -26,7 +26,7 @@ echo "mariadb-server-10.0	mysql-server/root_password	password	root" | debconf-se
 echo "mariadb-server-10.0	mysql-server/root_password_again	password	root" | debconf-set-selections
 
 apt-get -y update
-apt-get install -y mariadb-server mariadb-client mysqltuner
+apt-get install -y mariadb-server mariadb-client
 update-rc.d mysql defaults
 cat "$DIR/../config/profiles/drupal-classic/my.cnf" > /etc/mysql/my.cnf
 service mysql start
@@ -36,13 +36,24 @@ mysql -u root -proot -e "CREATE DATABASE drupal CHARACTER SET utf8 COLLATE utf8_
 mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY 'drupal';"
 mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON drupal.* TO 'drupal'@'%' IDENTIFIED BY 'drupal';"
 
+# Install Mysqltuner
+wget "https://github.com/major/MySQLTuner-perl/tarball/master" -O /tmp/mysqltuner.tgz
+mysqltnerdir=`find /tmp -type d -name major-MySQLTuner-perl-\*`
+cp "$mysqltunerdir/mysqltuner.pl" /usr/local/bin/mysqltuner
+chmod a+x /usr/local/bin/mysqltuner
+cd "$CURDIR"
+
+
+
 #
 # Install Apache Httpd
 #
 
 apt-get install -y apache2 apache2-utils
-a2enmod rewrite
 update-rc.d apache2 defaults
+a2enmod rewrite
+cat "$DIR/../config/profiles/drupal-classic/apache2.mpm_prefork.conf" > /etc/apache2/mods-available/mpm_prefork.conf
+
 service apache2 start
 
 # Create default Drupal site
@@ -58,6 +69,8 @@ cat "$DIR/../config/profiles/drupal-classic/apache2-default.conf" > /etc/apache2
 #
 apt-get install -y php5 php-apc php5-mysql php5-gd php-pear
 cat "$DIR/../config/profiles/drupal-classic/php.ini" > /etc/php5/apache2/php.ini
+cat "$DIR/../config/profiles/drupal-classic/php.drupal.ini" > /etc/php5/mods-available/drupal.ini
+php5enmod -s apache2 drupal
 
 #
 # Install Java 7 (required by Tomcat and Solr)
@@ -122,4 +135,15 @@ chmod a+x /opt/drush/drush
 unlink /tmp/drush-6.5.0.zip
 cd "$CURDIR"
 
+# Install Composer
+apt-get install -y php5-curl # Composer requires PHP's cURL extensions
+cd /tmp
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /opt/composer
+cd "$CURDIR"
 
+# Install the Deeson frontend tool chain
+apt-get install -y ruby ruby-dev nodejs npm
+npm install -g grunt-cli
+gem install sass compass
+#npm install -save-dev grunt-contrib-watch grunt-contrib-compass grunt-contrib-sass
