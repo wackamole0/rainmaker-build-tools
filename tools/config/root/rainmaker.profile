@@ -20,3 +20,13 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+# Set path to Drush if installed
+if [ -f "/opt/drush/drush" ] ; then
+    PATH="$PATH:/opt/drush/drush"
+fi
+
+# Set path to Composer if installed
+if [ -f "/opt/composer" ] ; then
+    PATH="$PATH:/opt/composer"
+fi
