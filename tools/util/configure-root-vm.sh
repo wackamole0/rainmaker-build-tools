@@ -82,7 +82,7 @@ fi
 # Configure LXC defaults
 cat "$DIR/../config/root/lxc-default.conf" > /etc/lxc/default.conf
 
-cp -R "$DIR/../config/root/lxc-templates/*" /usr/share/lxc/templates
+cp -R $DIR/../config/root/lxc-templates/* /usr/share/lxc/templates
 
 # Create rainmaker user
 "$DIR/create-rainmaker-user.sh"
