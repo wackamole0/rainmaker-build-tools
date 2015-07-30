@@ -17,7 +17,7 @@ DIR=`dirname $0`
 #
 # Replace bridge config used for building image with config that will be used in production
 #
-"$DIR/configure-bridge-for-production.sh"
+"$DIR/util/configure-bridge-for-production.sh"
 
 #
 # Cleanup
