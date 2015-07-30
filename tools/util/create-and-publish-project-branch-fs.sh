@@ -55,7 +55,7 @@ if [ -z "$version" ]; then
 fi
 
 if [ "$create" -eq 1 ]; then
-	"$dir/create-golden-project-branch-container.sh"
+	"$dir/create-golden-project-branch-container.sh" "--profile=$profile"
 fi
 	
 if [ "$publish" -eq 1 ]; then
@@ -63,7 +63,7 @@ if [ "$publish" -eq 1 ]; then
 
 	major=`echo $version | cut -d'.' -f1`
 	upload_path="/var/www/nginx/rootfs/project-branch/$profile/$major/project-branch-$profile-$version.tgz"
-	upload_dir=`dir $upload_path`
+	upload_dir=`dirname $upload_path`
 
 	ssh rainmaker@image.rainmaker.localdev "mkdir -p $upload_dir"
 	scp /var/lib/lxc/_golden-branch_/rootfs.tgz rainmaker@image.rainmaker.localdev:"$upload_path"
@@ -74,6 +74,6 @@ if [ "$publish" -eq 1 ]; then
 		unlink /tmp/latest
 	fi
 
-	unlink /var/lib/lxc_golden-branch_/rootfs.tgz
+	unlink /var/lib/lxc/_golden-branch_/rootfs.tgz
 	lxc-destroy -n _golden-branch_
 fi

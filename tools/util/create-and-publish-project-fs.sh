@@ -63,7 +63,7 @@ if [ "$publish" -eq 1 ]; then
 
 	major=`echo $version | cut -d'.' -f1`
 	upload_path="/var/www/nginx/rootfs/project/$profile/$major/project-$profile-$version.tgz"
-	upload_dir=`dir $upload_path`
+	upload_dir=`dirname $upload_path`
 
 	ssh rainmaker@image.rainmaker.localdev "mkdir -p $upload_dir"
 	scp /var/lib/lxc/_golden-proj_/rootfs.tgz rainmaker@image.rainmaker.localdev:"$upload_path"
