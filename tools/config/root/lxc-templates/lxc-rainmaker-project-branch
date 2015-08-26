@@ -9,7 +9,10 @@ if [ -r /etc/default/lxc ]; then
 fi
 
 profile_download_url=""
-profile_download_server="http://image.rainmaker.localdev"
+profile_download_server="http://image.rainmaker-dev.com"
+if [ -n "$RMK_DOWNLOAD_HOST" ]; then
+    profile_download_server="$RMK_DOWNLOAD_HOST"
+fi
 
 lxc_cache_base="/var/cache/lxc/rainmaker/project-branch"
 
