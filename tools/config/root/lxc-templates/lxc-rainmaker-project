@@ -8,15 +8,6 @@ if [ -r /etc/default/lxc ]; then
     . /etc/default/lxc
 fi
 
-profile_download_url=""
-profile_download_server="http://image.rainmaker-dev.com"
-if [ -n "$RMK_DOWNLOAD_HOST" ]; then
-    profile_download_server="$RMK_DOWNLOAD_HOST"
-fi
-
-
-lxc_cache_base="/var/cache/lxc/rainmaker/project"
-
 # Download the rootfs archive if not present in the download cache
 download() {
 	url=$1
@@ -43,7 +34,7 @@ install() {
 }
 
 # Set up the path option
-options=$(getopt -o n:p: -l path:,name:,rootfs:,profile:,version:,quiet,debug -- "$@")
+options=$(getopt -o n:p: -l path:,name:,rootfs:,profile:,version:,downloadhost:,quiet,debug -- "$@")
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -54,6 +45,14 @@ eval set -- "$options"
 quiet=0
 debug=0
 
+lxc_cache_base="/var/cache/lxc/rainmaker/project"
+
+profile_download_url=""
+profile_download_server="http://image.rainmaker-dev.com"
+if [ -n "$RMK_DOWNLOAD_HOST" ]; then
+    profile_download_server="$RMK_DOWNLOAD_HOST"
+fi
+
 # Fetch command line parameters
 while true; do
     case "$1" in
@@ -62,6 +61,7 @@ while true; do
         --rootfs)       rootfs=$2; shift 2;;
         --profile)      profile=$2; shift 2;;
         --version)      version=$2; shift 2;;
+        --downloadhost) profile_download_server=$2; shift 2;;
         --quiet)        quiet=1; shift 1;;
         --debug)        debug=1; shift 1;;
         --)             shift 1; break ;;
