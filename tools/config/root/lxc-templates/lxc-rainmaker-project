@@ -116,7 +116,7 @@ if [ -z "$version" ]; then
 fi
 
 major=`echo $version | cut -d'.' -f1`
-profile_downlold_url="$profile_download_base_url/$major/project-$profile-$version.tgz"
+profile_download_url="$profile_download_base_url/$major/project-$profile-$version.tgz"
 lxc_cache_path="$lxc_cache_base/$major/project-$profile-$version.tgz"
 
 if [ "$debug" -eq 1 ]; then
@@ -129,7 +129,7 @@ if [ ! -f "$lxc_cache_path" ]; then
     if [ "$quiet" -ne 1 ]; then
         echo 'A cached copied of the required version of the profile is not available so it will be downloaded.'
     fi
-	download $profile_downlold_url $lxc_cache_path $quiet $debug
+	download $profile_download_url $lxc_cache_path $quiet $debug
 else
     if [ "$quiet" -ne 1 ]; then
         echo 'A cached copied of the required version of the profile is available, so no need to download it.'
