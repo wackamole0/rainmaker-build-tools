@@ -3,6 +3,8 @@
 DIR=`dirname $0`
 CURDIR=`pwd`
 
+path_to_profile_config_files="$DIR/../../config/profiles/drupal-classic"
+
 #
 # Make sure apt is up-to-date and the distro has all current versions of packages installed
 #
@@ -28,7 +30,7 @@ echo "mariadb-server-10.0	mysql-server/root_password_again	password	root" | debc
 apt-get -y update
 apt-get install -y mariadb-server mariadb-client
 update-rc.d mysql defaults
-cat "$DIR/../config/profiles/drupal-classic/my.cnf" > /etc/mysql/my.cnf
+cat "$path_to_profile_config_files/my.cnf" > /etc/mysql/my.cnf
 service mysql start
 
 # Create default Drupal database and user
@@ -52,7 +54,7 @@ cd "$CURDIR"
 apt-get install -y apache2 apache2-utils
 update-rc.d apache2 defaults
 a2enmod rewrite
-cat "$DIR/../config/profiles/drupal-classic/apache2.mpm_prefork.conf" > /etc/apache2/mods-available/mpm_prefork.conf
+cat "$path_to_profile_config_files/apache2.mpm_prefork.conf" > /etc/apache2/mods-available/mpm_prefork.conf
 
 service apache2 start
 
@@ -62,14 +64,14 @@ mkdir -p /var/www/html
 mv /var/www/httpdocs /var/www/html/httpdocs
 chown -R rainmaker:www-data /var/www/html
 chmod -R ug+rw /var/www/html
-cat "$DIR/../config/profiles/drupal-classic/apache2-default.conf" > /etc/apache2/sites-available/000-default.conf
+cat "$path_to_profile_config_files/apache2-default.conf" > /etc/apache2/sites-available/000-default.conf
 
 #
 # Install PHP + APC
 #
 apt-get install -y php5 php-apc php5-mysql php5-gd php-pear
-cat "$DIR/../config/profiles/drupal-classic/php.ini" > /etc/php5/apache2/php.ini
-cat "$DIR/../config/profiles/drupal-classic/php.drupal.ini" > /etc/php5/mods-available/drupal.ini
+cat "$path_to_profile_config_files/php.ini" > /etc/php5/apache2/php.ini
+cat "$path_to_profile_config_files/php.drupal.ini" > /etc/php5/mods-available/drupal.ini
 php5enmod -s apache2 drupal
 
 #
@@ -82,7 +84,7 @@ apt-get install -y openjdk-7-jre
 #
 apt-get install -y tomcat7 tomcat7-admin
 update-rc.d tomcat7 defaults
-cat "$DIR/../config/profiles/drupal-classic/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
+cat "$path_to_profile_config_files/tomcat-users.xml" > /etc/tomcat7/tomcat-users.xml
 
 #
 # Install Solr
@@ -97,7 +99,7 @@ chgrp tomcat7 /var/lib/tomcat7/conf/log4j.properties
 cp /tmp/solr-4.10.3/dist/solr-4.10.3.war /var/lib/tomcat7/webapps/solr.war
 chown tomcat7:tomcat7 /var/lib/tomcat7/webapps/solr.war
 
-cp "$DIR/../config/profiles/drupal-classic/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
+cp "$path_to_profile_config_files/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
 mkdir /var/lib/solr
 rsync -av /tmp/solr-4.10.3/example/solr/ /var/lib/solr/
 chown -R tomcat7:tomcat7 /var/lib/solr
