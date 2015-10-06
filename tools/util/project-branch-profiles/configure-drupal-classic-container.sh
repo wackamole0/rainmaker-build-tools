@@ -89,19 +89,19 @@ cat "$path_to_profile_config_files/tomcat-users.xml" > /etc/tomcat7/tomcat-users
 #
 # Install Solr
 #
-wget "http://apache.mirror.anlx.net/lucene/solr/4.10.3/solr-4.10.3.tgz" -O /tmp/solr-4.10.3.tgz
+wget "http://apache.mirror.anlx.net/lucene/solr/4.10.4/solr-4.10.4.tgz" -O /tmp/solr-4.10.4.tgz
 cd /tmp
-tar -xzf /tmp/solr-4.10.3.tgz
-cp /tmp/solr-4.10.3/dist/solrj-lib/* /usr/share/tomcat7/lib/
-cp /tmp/solr-4.10.3/example/lib/ext/* /usr/share/tomcat7/lib/
-cp /tmp/solr-4.10.3/example/resources/log4j.properties /var/lib/tomcat7/conf/
+tar -xzf /tmp/solr-4.10.4.tgz
+cp /tmp/solr-4.10.4/dist/solrj-lib/* /usr/share/tomcat7/lib/
+cp /tmp/solr-4.10.4/example/lib/ext/* /usr/share/tomcat7/lib/
+cp /tmp/solr-4.10.4/example/resources/log4j.properties /var/lib/tomcat7/conf/
 chgrp tomcat7 /var/lib/tomcat7/conf/log4j.properties
-cp /tmp/solr-4.10.3/dist/solr-4.10.3.war /var/lib/tomcat7/webapps/solr.war
+cp /tmp/solr-4.10.4/dist/solr-4.10.4.war /var/lib/tomcat7/webapps/solr.war
 chown tomcat7:tomcat7 /var/lib/tomcat7/webapps/solr.war
 
 cp "$path_to_profile_config_files/tomcat-solr.xml" /etc/tomcat7/Catalina/localhost/solr.xml
 mkdir /var/lib/solr
-rsync -av /tmp/solr-4.10.3/example/solr/ /var/lib/solr/
+rsync -av /tmp/solr-4.10.4/example/solr/ /var/lib/solr/
 chown -R tomcat7:tomcat7 /var/lib/solr
 chmod -R u+rw /var/lib/solr
 chmod go-rwx /var/lib/solr
@@ -141,7 +141,8 @@ cd "$CURDIR"
 apt-get install -y php5-curl # Composer requires PHP's cURL extensions
 cd /tmp
 curl -sS https://getcomposer.org/installer | php
-mv composer.phar /opt/composer
+mkdir -p /opt/composer
+mv composer.phar /opt/composer/composer
 cd "$CURDIR"
 
 # Install the Deeson frontend tool chain

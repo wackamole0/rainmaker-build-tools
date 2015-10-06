@@ -23,10 +23,10 @@ fi
 
 # Set path to Drush if installed
 if [ -f "/opt/drush/drush" ] ; then
-    PATH="$PATH:/opt/drush/drush"
+    PATH="$PATH:/opt/drush"
 fi
 
 # Set path to Composer if installed
-if [ -f "/opt/composer" ] ; then
+if [ -f "/opt/composer/composer" ] ; then
     PATH="$PATH:/opt/composer"
 fi
