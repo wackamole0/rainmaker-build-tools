@@ -1,0 +1,39 @@
+VAGRANTFILE_API_VERSION = "2"
+
+VAGRANT_ROOT = File.dirname(File.expand_path(__FILE__))
+REPO_ROOT    = File.dirname(VAGRANT_ROOT)
+BOX          = "wackamole/trusty64"
+HOSTNAME     = "rainmaker"
+DOMAIN       = "localdev"
+MAC          = "080027bcda46"
+IP           = "10.252.0.254"
+NETMASK      = "255.255.0.0"
+RAM          = "512"
+VBOX_GUI     = true
+VBOX_NAME    = "Rainmaker Box Builder (Phase2)"
+DISK2_PATH   = File.join(VAGRANT_ROOT, 'disk2.vdi')
+TOOLS_PATH   = File.join(REPO_ROOT, 'tools2')
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = BOX
+  config.vm.boot_timeout = 600
+  config.vm.network "private_network", ip: IP, netmask: NETMASK, auto_config: false
+  config.vm.synced_folder TOOLS_PATH, "/mnt/rainmaker-tools"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = VBOX_NAME
+    vb.gui = VBOX_GUI
+    vb.customize ["modifyvm", :id, "--memory", RAM, "--nictype2", "Am79C973", "--nicpromisc2", "allow-all"]
+	
+	#VBoxManage createhd --filename ./disk2.vdi --size 512000 --format VDI --variant Standard
+	#VBoxManage storageattach 6fb2f4ea-a000-46fd-9ae7-ad76c4c96a4e --storagectl SATA --port 1 --device 0 --type hdd --medium ./disk2.vdi
+	unless File.exist?(DISK2_PATH)
+      vb.customize ['createhd', '--filename', DISK2_PATH, '--size', 500 * 1024, '--format', 'VDI', '--variant', 'Standard']
+    end
+    vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', DISK2_PATH]
+
+  end
+
+  #config.vm.provision "shell", inline: "sudo /mnt/rainmaker-tools/tools/prepare-rainmaker-box.sh | sudo tee /var/log/rainmaker-build.log"
+
+end

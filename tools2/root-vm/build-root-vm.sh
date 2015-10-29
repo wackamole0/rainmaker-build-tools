@@ -9,15 +9,15 @@ fi
 script_path=`dirname $0`
 tools_path="$script_path/.."
 
+hostname rainmaker.localdev
+echo "rainmaker.localdev" > /etc/hostname
+cp $script_path/config/hosts /etc/hosts
+
 $tools_path/common/upgrade-ubuntu.sh
 $tools_path/common/bootstrap-salt.sh
 
-cp $script_path/config/master /etc/salt/master
-cp $script_path/config/minion /etc/salt/minion
+$script_path/prepare-rainmaker-saltstack.sh --fullstack
 
-if [ ! -d /srv/salt/rainmaker ]
-then
-  mkdir /srv/salt/rainmaker
-fi
+echo "rainmaker.localdev" > /etc/salt/minion_id
 
 $script_path/provision-root-vm.sh

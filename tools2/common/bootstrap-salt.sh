@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt-get install -y debconf-utils python-software-properties software-properties-common
+apt-get install -y debconf-utils python-software-properties software-properties-common git
 
 add-apt-repository -y ppa:saltstack/salt
 apt-get update -y
