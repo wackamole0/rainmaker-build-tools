@@ -104,11 +104,10 @@ then
   mkdir /srv/saltstack/pillar/base
 fi
 
-if [ ! -d /srv/saltstack/salt/base/rainmaker ]
+if [ ! -d /srv/saltstack/pillar/base/rainmaker ]
 then
-  mkdir /srv/saltstack/salt/base/rainmaker
+  mkdir /srv/saltstack/pillar/base/rainmaker
 fi
-
 
 if [ $fullstack -eq 1 ]
 then
@@ -133,18 +132,40 @@ then
   cp $script_path/config/pillar/fullstack/builder-top.sls /srv/saltstack/pillar/builder/top.sls
 fi
 
+# Create directory structure for Rainmaker profiles
+if [ ! -d /srv/saltstack/profiles ]
+then
+  mkdir /srv/saltstack/profiles
+fi
+
+if [ ! -d /srv/saltstack/profiles/project ]
+then
+  mkdir /srv/saltstack/profiles/project
+fi
+
+if [ ! -d /srv/saltstack/profiles/branch ]
+then
+  mkdir /srv/saltstack/profiles/branch
+fi
+
+
 # Ideally here we would checkout the Rainmaker Profile Manager tool and use it
 # to install the basic profiles we need. However, the tool is not ready yet so
 # we will have to do this manually here.
 
+if [ ! -d /srv/saltstack/profiles/core ]
+then
+  git clone https://github.com/wackamole0/rainmaker-salt-core.git /srv/saltstack/profiles/core
+fi
+
 if [ ! -d /srv/saltstack/salt/base/rainmaker/core ]
 then
-  git clone https://github.com/wackamole0/rainmaker-salt-core.git /srv/saltstack/salt/base/rainmaker/core
+  ln -s /srv/saltstack/profiles/core/salt /srv/saltstack/salt/base/rainmaker/core
 fi
 
 if [ ! -d /srv/saltstack/pillar/base/rainmaker/core ]
 then
-  git clone https://github.com/wackamole0/rainmaker-pillar.git /srv/saltstack/pillar/base/rainmaker/core
+  ln -s /srv/saltstack/profiles/core/pillar /srv/saltstack/pillar/base/rainmaker/core
 fi
 
 if [ $fullstack -eq 1 ]
@@ -156,4 +177,3 @@ then
   fi
 
 fi
-
