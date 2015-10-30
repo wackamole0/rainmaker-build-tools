@@ -1,0 +1,28 @@
+VAGRANTFILE_API_VERSION = "2"
+
+VAGRANT_ROOT = File.dirname(File.expand_path(__FILE__))
+REPO_ROOT    = File.dirname(VAGRANT_ROOT)
+BOX          = "rainmaker/rainmaker-salt"
+HOSTNAME     = "rainmaker"
+DOMAIN       = "localdev"
+MAC          = "080027bcda46"
+IP           = "10.251.0.254"
+NETMASK      = "255.255.0.0"
+RAM          = "512"
+CPU          = 1
+VBOX_GUI     = true
+VBOX_NAME    = "Rainmaker Profile Builder (Phase2)"
+TOOLS_PATH   = File.join(REPO_ROOT, 'tools2')
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = BOX
+  config.vm.network "private_network", ip: IP, netmask: NETMASK, auto_config: false
+  config.vm.synced_folder TOOLS_PATH, "/mnt/rainmaker-tools"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = VBOX_NAME
+    vb.gui = VBOX_GUI
+    vb.customize ["modifyvm", :id, "--memory", RAM, "--cpus", CPU, "--nictype2", "Am79C973", "--nicpromisc2", "allow-all"]
+  end
+
+end
