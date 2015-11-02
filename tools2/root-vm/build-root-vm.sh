@@ -16,6 +16,7 @@ cp $script_path/config/hosts /etc/hosts
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
 $tools_path/common/upgrade-ubuntu.sh
+$tools_path/common/bootstrap-core-tools.sh
 $tools_path/common/bootstrap-salt.sh
 
 $script_path/prepare-rainmaker-saltstack.sh --fullstack

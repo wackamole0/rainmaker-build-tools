@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 script_path=`dirname $0`
+tools_path="$script_path/.."
 
 usage() {
     cat << EOF
@@ -34,13 +35,20 @@ while [ "$#" -gt 0 ]; do
 done
 
 # Configure Salt master and minion
+#if [ $fullstack -eq 1 ]
+#then
+#  cp $script_path/config/salt/fullstack/master /etc/salt/master
+#  cp $script_path/config/salt/fullstack/minion /etc/salt/minion
+#else
+#  cp $script_path/config/salt/master /etc/salt/master
+#  cp $script_path/config/salt/minion /etc/salt/minion
+#fi
+
 if [ $fullstack -eq 1 ]
 then
-  cp $script_path/config/salt/fullstack/master /etc/salt/master
-  cp $script_path/config/salt/fullstack/minion /etc/salt/minion
+  $tools_path/common/configure-salt.sh --fullstack
 else
-  cp $script_path/config/salt/master /etc/salt/master
-  cp $script_path/config/salt/minion /etc/salt/minion
+  $tools_path/common/configure-salt.sh
 fi
 
 # Create base directory for state and pillar tree

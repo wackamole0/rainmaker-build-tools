@@ -21,3 +21,8 @@ if [ -d /srv/saltstack/pillar/builder ]
 then
   rm -Rf /srv/saltstack/pillar/builder
 fi
+
+apt-get clean
+dd if=/dev/zero of=/EMPTY bs=1M
+rm -f /EMPTY
+cat /dev/null > ~/.bash_history && history -c

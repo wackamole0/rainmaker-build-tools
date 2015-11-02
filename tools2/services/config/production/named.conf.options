@@ -1,0 +1,27 @@
+acl "trusted" {
+        127.0.0.1;
+        10.100.0.0/16;
+};
+
+options {
+        directory "/var/cache/bind";
+
+        listen-on port 53 {
+                127.0.0.1;
+                10.100.0.2;
+        };
+        allow-query     { trusted; };
+        recursion yes;
+        allow-recursion { trusted; };
+        allow-transfer { none; };
+        auth-nxdomain no;    # conform to RFC1035
+        
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+
+        dnssec-enable yes;
+        dnssec-validation no;
+        dnssec-lookaside auto;
+};

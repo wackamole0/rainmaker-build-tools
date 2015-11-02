@@ -25,6 +25,9 @@ container_lxc_root_fs="$container_lxc_root/rootfs"
 lxc-create --name "$container_lxc_name" --bdev btrfs --template download -- --dist ubuntu --release trusty --arch amd64
 $script_path/../common/set-lxc-config-params $script_path/config/lxc-config $container_lxc_root/config $container_lxc_root/config
 
+echo "services.rainmaker.localdev" > "$container_lxc_root_fs/etc/hostname"
+cp $script_path/config/hosts "$container_lxc_root_fs/etc/hosts"
+
 # Configure container network
 
 if [ ! -d "$container_lxc_root_fs/etc/network/interfaces.d" ]
@@ -33,7 +36,8 @@ then
 fi
 
 cp "$script_path/../common/config/interfaces" "$container_lxc_root_fs/etc/network/interfaces"
-cp "$script_path/../services/config/nic-eth0.cfg" "$container_lxc_root_fs/etc/network/interfaces.d/eth0.cfg"
+#cp "$script_path/config/nic-eth0.cfg" "$container_lxc_root_fs/etc/network/interfaces.d/eth0.cfg"
+./configure-services-interface.php "$script_path/config/nic-eth0.cfg.tmpl" "$container_lxc_root_fs/etc/network/interfaces.d/eth0.cfg"
 
 echo 'nameserver 8.8.8.8' > "$container_lxc_root_fs/etc/resolv.conf"
 
@@ -44,7 +48,7 @@ then
   mkdir "$container_lxc_root_fs/mnt/tools"
 fi
 
-mount -o bind /mnt/rainmaker-tools/tools2 "$container_lxc_root_fs/mnt/tools"
+mount -o bind /mnt/rainmaker-tools "$container_lxc_root_fs/mnt/tools"
 
 # Mount /srv/saltstack from root VM into container
 
@@ -63,4 +67,7 @@ sleep 5
 # Bootstrap container
 
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/upgrade-ubuntu.sh
+lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-core-tools.sh
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-salt.sh
+#lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh --fullstack
+#lxc-attach -n "$container_lxc_name" -- /mnt/tools/services/provision-services-container.sh --environment=builder
