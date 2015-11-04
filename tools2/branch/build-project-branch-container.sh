@@ -44,7 +44,7 @@ then
   mkdir "$container_lxc_root_fs/mnt/tools"
 fi
 
-mount -o bind /mnt/rainmaker-tools/tools2 "$container_lxc_root_fs/mnt/tools"
+mount -o bind /mnt/rainmaker-tools "$container_lxc_root_fs/mnt/tools"
 
 # Mount /srv/saltstack from root VM into container
 
