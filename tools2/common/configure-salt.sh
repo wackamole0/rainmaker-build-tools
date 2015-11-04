@@ -37,9 +37,9 @@ done
 # Configure Salt master and minion
 if [ $fullstack -eq 1 ]
 then
-  cp $tools_path/root-vm/config/salt/fullstack/master /etc/salt/master
-  cp $tools_path/root-vm/config/salt/fullstack/minion /etc/salt/minion
+  cp $tools_path/common/config/salt/fullstack/master /etc/salt/master
+  cp $tools_path/common/config/salt/fullstack/minion /etc/salt/minion
 else
-  cp $tools_path/root-vm/config/salt/master /etc/salt/master
-  cp $tools_path/root-vm/config/salt/minion /etc/salt/minion
+  cp $tools_path/common/config/salt/master /etc/salt/master
+  cp $tools_path/common/config/salt/minion /etc/salt/minion
 fi
