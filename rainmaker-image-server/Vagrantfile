@@ -1,0 +1,36 @@
+VAGRANTFILE_API_VERSION = "2"
+
+VAGRANT_ROOT = File.dirname(File.expand_path(__FILE__))
+REPO_ROOT    = File.dirname(VAGRANT_ROOT)
+BOX          = "wackamole/trusty64"
+#HOSTNAME     = "rainmaker"
+#DOMAIN       = "localdev"
+#MAC          = "080027bcda46"
+BOX_BUILDER_IP     = "10.252.0.250"
+PROFILE_BUILDER_IP = "10.251.0.250"
+TESTBED_IP         = "10.250.0.250"
+NETMASK      = "255.255.0.0"
+RAM          = "512"
+CPU          = 1
+VBOX_GUI     = true
+VBOX_NAME    = "Rainmaker Local Image Server (Phase2)"
+TOOLS_PATH   = File.join(REPO_ROOT, 'tools2')
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = BOX
+  config.vm.network "private_network", ip: BOX_BUILDER_IP, netmask: NETMASK, auto_config: false
+  config.vm.network "private_network", ip: PROFILE_BUILDER_IP, netmask: NETMASK, auto_config: false
+  config.vm.network "private_network", ip: TESTBED_IP, netmask: NETMASK, auto_config: false
+  config.vm.synced_folder TOOLS_PATH, "/mnt/rainmaker-tools"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = VBOX_NAME
+    vb.gui = VBOX_GUI
+    vb.customize ["modifyvm", :id, "--memory", RAM, "--cpus", CPU,
+      "--nictype2", "Am79C973", "--nicpromisc2", "allow-all",
+      "--nictype3", "Am79C973", "--nicpromisc3", "allow-all",
+      "--nictype4", "Am79C973", "--nicpromisc4", "allow-all",
+    ]
+  end
+
+end

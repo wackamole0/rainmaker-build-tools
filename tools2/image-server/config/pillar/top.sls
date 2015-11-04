@@ -1,0 +1,3 @@
+base:
+  '*':
+    - rainmaker/image-server
