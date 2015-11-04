@@ -46,14 +46,14 @@ fi
 
 mount -o bind /mnt/rainmaker-tools/tools2 "$container_lxc_root_fs/mnt/tools"
 
-# Mount /srv/salt from root VM into container
+# Mount /srv/saltstack from root VM into container
 
-if [ ! -d "$container_lxc_root_fs/srv/salt" ]
+if [ ! -d "$container_lxc_root_fs/srv/saltstack" ]
 then
-  mkdir "$container_lxc_root_fs/srv/salt"
+  mkdir "$container_lxc_root_fs/srv/saltstack"
 fi
 
-mount -o bind /srv/salt "$container_lxc_root_fs/srv/salt"
+mount -o bind /srv/saltstack "$container_lxc_root_fs/srv/saltstack"
 
 # Boot container
 
@@ -63,4 +63,5 @@ sleep 5
 # Bootstrap container
 
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/upgrade-ubuntu.sh
+lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-core-tools.sh
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-salt.sh

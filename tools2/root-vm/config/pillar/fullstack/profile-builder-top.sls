@@ -1,0 +1,3 @@
+profile-builder:
+  '*':
+    - rainmaker/core

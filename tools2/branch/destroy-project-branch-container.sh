@@ -28,11 +28,11 @@ then
   sleep 5
 fi
 
-# Unmount /srv/salt from container
+# Unmount /srv/saltstack from container
 
-if [ "`grep -s $container_lxc_root_fs/srv/salt /proc/mounts`" != "" ]
+if [ "`grep -s $container_lxc_root_fs/srv/saltstack /proc/mounts`" != "" ]
 then
-  umount "$container_lxc_root_fs/srv/salt"
+  umount "$container_lxc_root_fs/srv/saltstack"
 fi
 
 # Unmount /mnt/tools from container

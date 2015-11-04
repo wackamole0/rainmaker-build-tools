@@ -76,6 +76,11 @@ then
     mkdir /srv/saltstack/salt/builder
   fi
 
+  if [ ! -d /srv/saltstack/salt/profile-builder ]
+  then
+    mkdir /srv/saltstack/salt/profile-builder
+  fi
+
 fi
 
 if [ ! -d /srv/saltstack/salt/base/rainmaker ]
@@ -90,7 +95,7 @@ fi
 
 if [ ! -d /srv/saltstack/salt/base/rainmaker/branch ]
 then
-  mkdir /srv/saltstack/salt/base//rainmaker/branch
+  mkdir /srv/saltstack/salt/base/rainmaker/branch
 fi
 
 # Configure the top files
@@ -99,6 +104,7 @@ cp $script_path/config/salt/top.sls /srv/saltstack/salt/base/top.sls
 if [ $fullstack -eq 1 ]
 then
   cp $script_path/config/salt/fullstack/builder-top.sls /srv/saltstack/salt/builder/top.sls
+  cp $script_path/config/salt/fullstack/profile-builder-top.sls /srv/saltstack/salt/profile-builder/top.sls
 fi
 
 # Create basic directory structure for Pillar tree file roots
@@ -130,6 +136,16 @@ then
     mkdir /srv/saltstack/pillar/builder/rainmaker
   fi
 
+  if [ ! -d /srv/saltstack/pillar/profile-builder ]
+  then
+    mkdir /srv/saltstack/pillar/profile-builder
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/profile-builder/rainmaker ]
+  then
+    mkdir /srv/saltstack/pillar/profile-builder/rainmaker
+  fi
+
 fi
 
 # Configure the top files for the Pillar trees
@@ -138,6 +154,7 @@ cp $script_path/config/pillar/top.sls /srv/saltstack/pillar/base/top.sls
 if [ $fullstack -eq 1 ]
 then
   cp $script_path/config/pillar/fullstack/builder-top.sls /srv/saltstack/pillar/builder/top.sls
+  cp $script_path/config/pillar/fullstack/profile-builder-top.sls /srv/saltstack/pillar/profile-builder/top.sls
 fi
 
 # Create directory structure for Rainmaker profiles
@@ -182,6 +199,11 @@ then
   if [ ! -d /srv/saltstack/pillar/builder/rainmaker/core ]
   then
     git clone https://github.com/wackamole0/rainmaker-builder-pillar.git /srv/saltstack/pillar/builder/rainmaker/core
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/profile-builder/rainmaker/core ]
+  then
+    git clone https://github.com/wackamole0/rainmaker-profile-builder-pillar.git /srv/saltstack/pillar/profile-builder/rainmaker/core
   fi
 
 fi

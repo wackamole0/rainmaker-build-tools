@@ -414,6 +414,10 @@ file_roots:
   builder:
     - /srv/saltstack/builder
     - /srv/saltstack/base
+  profile-builder:
+    - /srv/saltstack/profile-builder
+    - /srv/saltstack/builder
+    - /srv/saltstack/base
 
 # The hash_type is the hash to use when discovering the hash of a file on
 # the master server. The default is md5, but sha1, sha224, sha256, sha384
@@ -528,6 +532,10 @@ pillar_roots:
   base:
     - /srv/saltstack/pillar/base
   builder:
+    - /srv/saltstack/pillar/builder
+    - /srv/saltstack/pillar/base
+  profile-builder:
+    - /srv/saltstack/pillar/profile-builder
     - /srv/saltstack/pillar/builder
     - /srv/saltstack/pillar/base
 
