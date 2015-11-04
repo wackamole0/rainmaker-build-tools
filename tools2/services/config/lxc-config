@@ -11,6 +11,11 @@ lxc.rootfs = {{lxc.rootfs}}
 lxc.utsname = {{lxc.utsname}}
 lxc.mount.auto = cgroup
 
+lxc.start.auto = 1
+lxc.start.delay = 0
+lxc.start.order = 0
+lxc.group = onboot
+
 # Network configuration
 lxc.network.type = veth
 lxc.network.flags = up
