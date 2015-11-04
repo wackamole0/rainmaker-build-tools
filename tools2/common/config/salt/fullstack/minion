@@ -432,6 +432,11 @@ file_roots:
     - /srv/saltstack/salt/profile-builder
     - /srv/saltstack/salt/builder
     - /srv/saltstack/salt/base
+  testbed:
+    - /srv/saltstack/salt/testbed
+    - /srv/saltstack/salt/profile-builder
+    - /srv/saltstack/salt/builder
+    - /srv/saltstack/salt/base
 
 # By default, the Salt fileserver recurses fully into all defined environments
 # to attempt to find files. To limit this behavior so that the fileserver only
@@ -459,6 +464,11 @@ pillar_roots:
     - /srv/saltstack/pillar/builder
     - /srv/saltstack/pillar/base
   profile-builder:
+    - /srv/saltstack/pillar/profile-builder
+    - /srv/saltstack/pillar/builder
+    - /srv/saltstack/pillar/base
+  testbed:
+    - /srv/saltstack/pillar/testbed
     - /srv/saltstack/pillar/profile-builder
     - /srv/saltstack/pillar/builder
     - /srv/saltstack/pillar/base

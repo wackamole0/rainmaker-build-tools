@@ -19,7 +19,7 @@ $tools_path/common/upgrade-ubuntu.sh
 $tools_path/common/bootstrap-core-tools.sh
 $tools_path/common/bootstrap-salt.sh
 
-$script_path/prepare--saltstack.sh --fullstack
+$script_path/prepare-saltstack.sh --fullstack
 
 echo "image.rainmaker.localdev" > /etc/salt/minion_id
 

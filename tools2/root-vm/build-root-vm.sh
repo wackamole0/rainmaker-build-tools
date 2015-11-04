@@ -19,7 +19,7 @@ $tools_path/common/upgrade-ubuntu.sh
 $tools_path/common/bootstrap-core-tools.sh
 $tools_path/common/bootstrap-salt.sh
 
-$script_path/prepare-rainmaker-saltstack.sh --fullstack
+$tools_path/common/prepare-rainmaker-saltstack.sh --fullstack
 
 echo "rainmaker.localdev" > /etc/salt/minion_id
 

@@ -34,21 +34,11 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
-# Configure Salt master and minion
-#if [ $fullstack -eq 1 ]
-#then
-#  cp $script_path/config/salt/fullstack/master /etc/salt/master
-#  cp $script_path/config/salt/fullstack/minion /etc/salt/minion
-#else
-#  cp $script_path/config/salt/master /etc/salt/master
-#  cp $script_path/config/salt/minion /etc/salt/minion
-#fi
-
 if [ $fullstack -eq 1 ]
 then
-  $tools_path/common/configure-salt.sh --fullstack
+  $script_path/configure-salt.sh --fullstack
 else
-  $tools_path/common/configure-salt.sh
+  $script_path/configure-salt.sh
 fi
 
 # Create base directory for state and pillar tree
@@ -81,6 +71,11 @@ then
     mkdir /srv/saltstack/salt/profile-builder
   fi
 
+  if [ ! -d /srv/saltstack/salt/testbed ]
+  then
+    mkdir /srv/saltstack/salt/testbed
+  fi
+
 fi
 
 if [ ! -d /srv/saltstack/salt/base/rainmaker ]
@@ -105,6 +100,7 @@ if [ $fullstack -eq 1 ]
 then
   cp $script_path/config/salt/fullstack/builder-top.sls /srv/saltstack/salt/builder/top.sls
   cp $script_path/config/salt/fullstack/profile-builder-top.sls /srv/saltstack/salt/profile-builder/top.sls
+  cp $script_path/config/salt/fullstack/testbed-top.sls /srv/saltstack/salt/testbed/top.sls
 fi
 
 # Create basic directory structure for Pillar tree file roots
@@ -146,6 +142,11 @@ then
     mkdir /srv/saltstack/pillar/profile-builder/rainmaker
   fi
 
+  if [ ! -d /srv/saltstack/pillar/testbed/rainmaker ]
+  then
+    mkdir /srv/saltstack/pillar/testbed/rainmaker
+  fi
+
 fi
 
 # Configure the top files for the Pillar trees
@@ -155,6 +156,7 @@ if [ $fullstack -eq 1 ]
 then
   cp $script_path/config/pillar/fullstack/builder-top.sls /srv/saltstack/pillar/builder/top.sls
   cp $script_path/config/pillar/fullstack/profile-builder-top.sls /srv/saltstack/pillar/profile-builder/top.sls
+  cp $script_path/config/pillar/fullstack/testbed-top.sls /srv/saltstack/pillar/testbed/top.sls
 fi
 
 # Create directory structure for Rainmaker profiles
@@ -204,6 +206,11 @@ then
   if [ ! -d /srv/saltstack/pillar/profile-builder/rainmaker/core ]
   then
     git clone https://github.com/wackamole0/rainmaker-profile-builder-pillar.git /srv/saltstack/pillar/profile-builder/rainmaker/core
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/testbed/rainmaker/core ]
+  then
+    git clone https://github.com/wackamole0/rainmaker-testbed-pillar.git /srv/saltstack/pillar/testbed/rainmaker/core
   fi
 
 fi

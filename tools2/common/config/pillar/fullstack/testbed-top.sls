@@ -1,0 +1,3 @@
+testbed:
+  '*':
+    - rainmaker/core
