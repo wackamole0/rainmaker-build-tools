@@ -142,6 +142,11 @@ then
     mkdir /srv/saltstack/pillar/profile-builder/rainmaker
   fi
 
+  if [ ! -d /srv/saltstack/pillar/testbed ]
+  then
+    mkdir /srv/saltstack/pillar/testbed
+  fi
+
   if [ ! -d /srv/saltstack/pillar/testbed/rainmaker ]
   then
     mkdir /srv/saltstack/pillar/testbed/rainmaker
