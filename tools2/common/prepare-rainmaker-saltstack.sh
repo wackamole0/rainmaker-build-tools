@@ -93,6 +93,56 @@ then
   mkdir /srv/saltstack/salt/base/rainmaker/branch
 fi
 
+if [ $fullstack -eq 1 ]
+then
+
+  if [ ! -d /srv/saltstack/salt/builder/rainmaker ]
+  then
+    mkdir /srv/saltstack/salt/builder/rainmaker
+  fi
+
+  if [ ! -d /srv/saltstack/salt/builder/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/salt/builder/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/salt/builder/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/salt/builder/rainmaker/branch
+  fi
+
+  if [ ! -d /srv/saltstack/salt/profile-builder/rainmaker ]
+  then
+    mkdir /srv/saltstack/salt/profile-builder/rainmaker
+  fi
+
+  if [ ! -d /srv/saltstack/salt/profile-builder/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/salt/profile-builder/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/salt/profile-builder/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/salt/profile-builder/rainmaker/branch
+  fi
+
+  if [ ! -d /srv/saltstack/salt/testbed/rainmaker ]
+  then
+    mkdir /srv/saltstack/salt/testbed/rainmaker
+  fi
+
+  if [ ! -d /srv/saltstack/salt/testbed/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/salt/testbed/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/salt/testbed/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/salt/testbed/rainmaker/branch
+  fi
+
+fi
+
 # Configure the top files
 cp $script_path/config/salt/top.sls /srv/saltstack/salt/base/top.sls
 
@@ -119,6 +169,16 @@ then
   mkdir /srv/saltstack/pillar/base/rainmaker
 fi
 
+if [ ! -d /srv/saltstack/pillar/base/rainmaker/project ]
+then
+  mkdir /srv/saltstack/pillar/base/rainmaker/project
+fi
+
+if [ ! -d /srv/saltstack/pillar/base/rainmaker/branch ]
+then
+  mkdir /srv/saltstack/pillar/base/rainmaker/branch
+fi
+
 if [ $fullstack -eq 1 ]
 then
 
@@ -132,6 +192,16 @@ then
     mkdir /srv/saltstack/pillar/builder/rainmaker
   fi
 
+  if [ ! -d /srv/saltstack/pillar/builder/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/pillar/builder/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/builder/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/pillar/builder/rainmaker/branch
+  fi
+
   if [ ! -d /srv/saltstack/pillar/profile-builder ]
   then
     mkdir /srv/saltstack/pillar/profile-builder
@@ -142,6 +212,16 @@ then
     mkdir /srv/saltstack/pillar/profile-builder/rainmaker
   fi
 
+  if [ ! -d /srv/saltstack/pillar/profile-builder/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/pillar/profile-builder/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/profile-builder/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/pillar/profile-builder/rainmaker/branch
+  fi
+
   if [ ! -d /srv/saltstack/pillar/testbed ]
   then
     mkdir /srv/saltstack/pillar/testbed
@@ -150,6 +230,16 @@ then
   if [ ! -d /srv/saltstack/pillar/testbed/rainmaker ]
   then
     mkdir /srv/saltstack/pillar/testbed/rainmaker
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/testbed/rainmaker/project ]
+  then
+    mkdir /srv/saltstack/pillar/testbed/rainmaker/project
+  fi
+
+  if [ ! -d /srv/saltstack/pillar/testbed/rainmaker/branch ]
+  then
+    mkdir /srv/saltstack/pillar/testbed/rainmaker/branch
   fi
 
 fi
@@ -185,6 +275,8 @@ fi
 # to install the basic profiles we need. However, the tool is not ready yet so
 # we will have to do this manually here.
 
+# Core profile
+
 if [ ! -d /srv/saltstack/profiles/core ]
 then
   git clone https://github.com/wackamole0/rainmaker-salt-core.git /srv/saltstack/profiles/core
@@ -199,6 +291,67 @@ if [ ! -d /srv/saltstack/pillar/base/rainmaker/core ]
 then
   ln -s /srv/saltstack/profiles/core/pillar /srv/saltstack/pillar/base/rainmaker/core
 fi
+
+# Default project
+
+if [ ! -d /srv/saltstack/profiles/project/rainmaker/default-project ]
+then
+  mkdir -p /srv/saltstack/profiles/project/rainmaker
+  git clone https://github.com/wackamole0/rainmaker-default-project-profile.git /srv/saltstack/profiles/project/rainmaker/default-project
+fi
+
+if [ ! -d /srv/saltstack/salt/base/rainmaker/project/rainmaker/default-project ]
+then
+  mkdir -p /srv/saltstack/salt/base/rainmaker/project/rainmaker
+  ln -s /srv/saltstack/profiles/project/rainmaker/default-project/salt /srv/saltstack/salt/base/rainmaker/project/rainmaker/default-project
+fi
+
+if [ ! -d /srv/saltstack/pillar/base/rainmaker/project/rainmaker/default-project ]
+then
+  mkdir /srv/saltstack/pillar/base/rainmaker/project/rainmaker
+  ln -s /srv/saltstack/profiles/project/rainmaker/default-project/pillar /srv/saltstack/pillar/base/rainmaker/project/rainmaker/default-project
+fi
+
+# Default branch
+
+if [ ! -d /srv/saltstack/profiles/branch/rainmaker/default-branch ]
+then
+  mkdir -p /srv/saltstack/profiles/branch/rainmaker
+  git clone https://github.com/wackamole0/rainmaker-default-branch-profile.git /srv/saltstack/profiles/branch/rainmaker/default-branch
+fi
+
+if [ ! -d /srv/saltstack/salt/base/rainmaker/branch/rainmaker/default-branch ]
+then
+  mkdir -p /srv/saltstack/salt/base/rainmaker/branch/rainmaker
+  ln -s /srv/saltstack/profiles/branch/rainmaker/default-branch/salt /srv/saltstack/salt/base/rainmaker/branch/rainmaker/default-branch
+fi
+
+if [ ! -d /srv/saltstack/pillar/base/rainmaker/branch/rainmaker/default-branch ]
+then
+  mkdir /srv/saltstack/pillar/base/rainmaker/branch/rainmaker
+  ln -s /srv/saltstack/profiles/branch/rainmaker/default-branch/pillar /srv/saltstack/pillar/base/rainmaker/branch/rainmaker/default-branch
+fi
+
+# Drupal classic branch
+
+if [ ! -d /srv/saltstack/profiles/branch/rainmaker/drupal-classic ]
+then
+  mkdir -p /srv/saltstack/profiles/branch/rainmaker
+  git clone https://github.com/wackamole0/rainmaker-drupal-classic-profile.git /srv/saltstack/profiles/branch/rainmaker/drupal-classic
+fi
+
+if [ ! -d /srv/saltstack/salt/base/rainmaker/branch/rainmaker/drupal-classic ]
+then
+  mkdir -p /srv/saltstack/salt/base/rainmaker/branch/rainmaker
+  ln -s /srv/saltstack/profiles/branch/rainmaker/drupal-classic/salt /srv/saltstack/salt/base/rainmaker/branch/rainmaker/drupal-classic
+fi
+
+if [ ! -d /srv/saltstack/pillar/base/rainmaker/branch/rainmaker/drupal-classic ]
+then
+  mkdir /srv/saltstack/pillar/base/rainmaker/branch/rainmaker
+  ln -s /srv/saltstack/profiles/branch/rainmaker/drupal-classic/pillar /srv/saltstack/pillar/base/rainmaker/branch/rainmaker/drupal-classic
+fi
+
 
 if [ $fullstack -eq 1 ]
 then

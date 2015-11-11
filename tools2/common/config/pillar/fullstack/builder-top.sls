@@ -1,3 +1,3 @@
 builder:
   '*':
-    - rainmaker/core
+    - rainmaker/core/v1_0
