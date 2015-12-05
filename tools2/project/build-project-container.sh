@@ -37,23 +37,7 @@ cp "$script_path/../project/config/nic-eth0.cfg" "$container_lxc_root_fs/etc/net
 
 echo 'nameserver 8.8.8.8' > "$container_lxc_root_fs/etc/resolv.conf"
 
-# Mount /mnt/tools from root VM into container
-
-if [ ! -d "$container_lxc_root_fs/mnt/tools" ]
-then
-  mkdir "$container_lxc_root_fs/mnt/tools"
-fi
-
-mount -o bind /mnt/rainmaker-tools "$container_lxc_root_fs/mnt/tools"
-
-# Mount /srv/saltstack from root VM into container
-
-if [ ! -d "$container_lxc_root_fs/srv/saltstack" ]
-then
-  mkdir "$container_lxc_root_fs/srv/saltstack"
-fi
-
-mount -o bind /srv/saltstack "$container_lxc_root_fs/srv/saltstack"
+$script_path/mount-filesystem.sh "$container_lxc_name"
 
 # Boot container
 

@@ -20,20 +20,16 @@ container_lxc_name=$1
 container_lxc_root="/var/lib/lxc/$1"
 container_lxc_root_fs="$container_lxc_root/rootfs"
 
-# Stop container
+# Unmount /srv/saltstack from container
 
-if [ "`lxc-ls --running ^$container_lxc_name\$`" != "" ]
+if [ "`grep -s $container_lxc_root_fs/srv/saltstack /proc/mounts`" != "" ]
 then
-  lxc-stop -n $container_lxc_name
-  sleep 5
+  umount "$container_lxc_root_fs/srv/saltstack"
 fi
 
-$script_path/unmount-filesystem.sh "$container_lxc_name"
+# Unmount /mnt/tools from container
 
-# Destroy container
-
-if [ "`lxc-ls --stopped ^$container_lxc_name\$`" != "" ]
+if [ "`grep -s $container_lxc_root_fs/mnt/tools /proc/mounts`" != "" ]
 then
-  lxc-destroy -n $container_lxc_name
-  sleep 5
+  umount "$container_lxc_root_fs/mnt/tools"
 fi

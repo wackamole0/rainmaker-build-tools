@@ -28,19 +28,7 @@ then
   sleep 5
 fi
 
-# Unmount /srv/saltstack from container
-
-if [ "`grep -s $container_lxc_root_fs/srv/saltstack /proc/mounts`" != "" ]
-then
-  umount "$container_lxc_root_fs/srv/saltstack"
-fi
-
-# Unmount /mnt/tools from container
-
-if [ "`grep -s $container_lxc_root_fs/mnt/tools /proc/mounts`" != "" ]
-then
-  umount "$container_lxc_root_fs/mnt/tools"
-fi
+$script_path/unmount-filesystem.sh "$container_lxc_name"
 
 # Destroy container
 
