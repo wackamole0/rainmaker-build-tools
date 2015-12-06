@@ -18,6 +18,8 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 $tools_path/common/upgrade-ubuntu.sh
 $tools_path/common/bootstrap-core-tools.sh
 $tools_path/common/bootstrap-salt.sh
+$tools_path/common/install-composer.sh
+$tools_path/common/install-rprofmgr.sh
 
 $tools_path/common/prepare-rainmaker-saltstack.sh --fullstack
 
