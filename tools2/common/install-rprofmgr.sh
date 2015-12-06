@@ -15,3 +15,8 @@ git clone https://github.com/wackamole0/rainmaker-profile-manager.git .
 git checkout dev
 
 cd $curdir
+
+if [ ! -h /usr/local/bin/rainmaker-profile-manager/rprofmgr ]
+then
+  ln -s /opt/rainmaker-profile-manager/rprofmgr /usr/local/bin/rprofmgr
+fi
