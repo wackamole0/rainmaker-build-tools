@@ -37,7 +37,7 @@ cp "$script_path/../project/config/nic-eth0.cfg" "$container_lxc_root_fs/etc/net
 
 echo 'nameserver 8.8.8.8' > "$container_lxc_root_fs/etc/resolv.conf"
 
-$script_path/mount-filesystem.sh "$container_lxc_name"
+$script_path/mount-filesystems.sh "$container_lxc_name"
 
 # Boot container
 
