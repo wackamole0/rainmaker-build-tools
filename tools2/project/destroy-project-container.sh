@@ -28,7 +28,7 @@ then
   sleep 5
 fi
 
-$script_path/unmount-filesystem.sh "$container_lxc_name"
+$script_path/unmount-filesystems.sh "$container_lxc_name"
 
 # Destroy container
 
