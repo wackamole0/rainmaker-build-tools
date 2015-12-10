@@ -34,6 +34,19 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
+# Stop the Salt services we do not need
+if [ "`service salt-master status | fgrep running`" != "" ]; then
+  service salt-master stop
+fi
+
+update-rc.d -f salt-master remove
+
+if [ "`service salt-syndic status | fgrep running`" != "" ]; then
+  service salt-syndic stop
+fi
+
+update-rc.d -f salt-syndic remove
+
 # Configure Salt master and minion
 if [ $fullstack -eq 1 ]
 then
