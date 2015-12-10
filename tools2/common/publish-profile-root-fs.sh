@@ -99,3 +99,5 @@ remote_rootfs_dir=`dirname $remote_rootfs_full_path`
 
 ssh -i /home/rainmaker/.ssh/id_rsa rainmaker@"$profile_rootfs_server" "mkdir -p $remote_rootfs_dir"
 scp -i /home/rainmaker/.ssh/id_rsa "$snapshot_file" rainmaker@"$profile_rootfs_server":"$remote_rootfs_full_path"
+
+unlink "$snapshot_file"
