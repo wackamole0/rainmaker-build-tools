@@ -3,9 +3,8 @@
 script_path=`dirname $0`
 tools_path="$script_path/.."
 
-if [ ! -d /opt/rainmaker-profile-manager ]
-then
-  mkdir -p /opt/rainmaker-profile-manager
+if [ ! -d /opt/rainmaker-profile-manager ]; then
+    mkdir -p /opt/rainmaker-profile-manager
 fi
 
 curdir=`pwd`
@@ -16,7 +15,6 @@ git checkout dev
 
 cd $curdir
 
-if [ ! -h /usr/local/bin/rainmaker-profile-manager/rprofmgr ]
-then
-  ln -s /opt/rainmaker-profile-manager/rprofmgr /usr/local/bin/rprofmgr
+if [ ! -h /usr/local/bin/rprofmgr ]; then
+    ln -s /opt/rainmaker-profile-manager/rprofmgr /usr/local/bin/rprofmgr
 fi
