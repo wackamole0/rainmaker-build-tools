@@ -20,39 +20,38 @@ fullstack=0;
 
 # Process command line options
 while [ "$#" -gt 0 ]; do
-  case $1 in
+    case $1 in
         -h|--help)
-          usage
-          exit 1
-      ;;
-    --fullstack)
-      fullstack=1
-      shift
-      break
-      ;;
-  esac
-  shift
+            usage
+            exit 1
+        ;;
+        --fullstack)
+            fullstack=1
+            shift
+            break
+        ;;
+    esac
+    shift
 done
 
 # Stop the Salt services we do not need
 if [ "`service salt-master status | fgrep running`" != "" ]; then
-  service salt-master stop
+    service salt-master stop
 fi
 
 update-rc.d -f salt-master remove
 
 if [ "`service salt-syndic status | fgrep running`" != "" ]; then
-  service salt-syndic stop
+    service salt-syndic stop
 fi
 
 update-rc.d -f salt-syndic remove
 
 # Configure Salt master and minion
-if [ $fullstack -eq 1 ]
-then
-  cp $tools_path/common/config/salt/fullstack/master /etc/salt/master
-  cp $tools_path/common/config/salt/fullstack/minion /etc/salt/minion
+if [ $fullstack -eq 1 ]; then
+    cp $tools_path/common/config/salt/fullstack/master /etc/salt/master
+    cp $tools_path/common/config/salt/fullstack/minion /etc/salt/minion
 else
-  cp $tools_path/common/config/salt/master /etc/salt/master
-  cp $tools_path/common/config/salt/minion /etc/salt/minion
+    cp $tools_path/common/config/salt/master /etc/salt/master
+    cp $tools_path/common/config/salt/minion /etc/salt/minion
 fi

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-if [ `id -u` -ne 0 ]
-then
-  echo "You must run this with root permissions"
-  exit
+if [ `id -u` -ne 0 ]; then
+    echo "You must run this with root permissions"
+    exit
 fi
 
 script_path=`dirname $0`

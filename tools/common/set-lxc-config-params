@@ -2,8 +2,8 @@
 <?php
 
 if (count($argv) < 4) {
-  print usage();
-  exit(1);
+    print usage();
+    exit(1);
 }
 
 $template_lxc_config_path = $argv[1];
@@ -11,32 +11,32 @@ $source_lxc_config_path = $argv[2];
 $destination_lxc_config_path = $argv[3];
 
 if (!file_exists($template_lxc_config_path)) {
-  print 'Template LXC config file is missing or is not readable';
-  exit(1);
+    print 'Template LXC config file is missing or is not readable';
+    exit(1);
 }
 
 if (!file_exists($source_lxc_config_path)) {
-  print 'Source LXC config file is missing or is not readable';
-  exit(1);
+    print 'Source LXC config file is missing or is not readable';
+    exit(1);
 }
 
 if (!file_exists(dirname($destination_lxc_config_path))) {
-  print 'Destination LXC config file directory is missing or is not readable';
-  exit(1);
+    print 'Destination LXC config file directory is missing or is not readable';
+    exit(1);
 }
 
 $template_contents = file_get_contents($template_lxc_config_path);
 $source_contents = file_get_contents($source_lxc_config_path);
 
 $substitutions = array(
-  'lxc.rootfs' => get_config_parameter_value('lxc.rootfs', $source_contents),
-  'lxc.utsname' => get_config_parameter_value('lxc.utsname', $source_contents),
-  'lxc.network.hwaddr' => get_config_parameter_value('lxc.network.hwaddr', $source_contents)
+    'lxc.rootfs' => get_config_parameter_value('lxc.rootfs', $source_contents),
+    'lxc.utsname' => get_config_parameter_value('lxc.utsname', $source_contents),
+    'lxc.network.hwaddr' => get_config_parameter_value('lxc.network.hwaddr', $source_contents)
 );
 
 $config = $template_contents;
 foreach ($substitutions as $find => $replace) {
-  $config = str_replace('{{' . $find . '}}', $replace, $config);
+    $config = str_replace('{{' . $find . '}}', $replace, $config);
 }
 
 #var_dump($config);
@@ -46,13 +46,13 @@ file_put_contents($destination_lxc_config_path, $config);
 exit;
 
 function usage() {
-  return 'set-lxc-config-params.php <template_lxc_config_path> <source_lxc_config_path> <destination_lxc_config_path>';
+    return 'set-lxc-config-params.php <template_lxc_config_path> <source_lxc_config_path> <destination_lxc_config_path>';
 }
 
 function get_config_parameter_value($param_name, $config) {
-  if (preg_match("/$param_name = (.+)/", $config, $matches) === 1) {
-    return $matches[1];
-  }
+    if (preg_match("/$param_name = (.+)/", $config, $matches) === 1) {
+        return $matches[1];
+    }
 
-  return null;
+    return null;
 }

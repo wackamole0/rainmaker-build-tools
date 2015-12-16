@@ -8,10 +8,10 @@ $output = `ip addr show br0`;
 $host_ip = '10.100.0.254';
 $services_ip = '10.100.0.2';
 if (preg_match('/inet\s(.+?)\//', $output, $matches) === 1) {
-  $host_ip = $matches[1];
-  $octets = explode('.', $host_ip);
-  $octets[3] = '2';
-  $services_ip = implode('.', $octets);
+    $host_ip = $matches[1];
+    $octets = explode('.', $host_ip);
+    $octets[3] = '2';
+    $services_ip = implode('.', $octets);
 }
 
 #print "$host_ip\n";

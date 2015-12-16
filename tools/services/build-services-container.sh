@@ -31,7 +31,7 @@ fi
 
 container_lxc_root="/var/lib/lxc/$container_lxc_name"
 container_lxc_root_fs="$container_lxc_root/rootfs"
-container_hostname="$container_lxc_name.localdev"
+container_hostname="$container_lxc_name.rainmaker.localdev"
 environment="base"
 
 # Set up the path option
@@ -48,9 +48,9 @@ eval set -- "$options"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
-      -h|--help)            usage; exit 1;;
-      -e|--environment)     environment=$2; shift 2;;
-      *)                    break ;;
+        -h|--help)            usage; exit 1;;
+        -e|--environment)     environment=$2; shift 2;;
+        *)                    break ;;
     esac
 done
 

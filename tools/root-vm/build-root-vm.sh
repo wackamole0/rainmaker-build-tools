@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-if [ `id -u` -ne 0 ]
-then
-  echo "You must run this with root permissions"
-  exit
+if [ `id -u` -ne 0 ]; then
+    echo "You must run this with root permissions"
+    exit
 fi
 
 script_path=`dirname $0`
@@ -20,6 +19,7 @@ $tools_path/common/bootstrap-core-tools.sh
 $tools_path/common/bootstrap-salt.sh
 $tools_path/common/install-composer.sh
 $tools_path/common/install-rprofmgr.sh
+$tools_path/common/install-rainmaker-cli.sh
 
 $tools_path/common/prepare-rainmaker-saltstack.sh --fullstack
 
