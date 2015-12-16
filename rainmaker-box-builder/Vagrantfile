@@ -12,7 +12,7 @@ RAM          = "512"
 VBOX_GUI     = true
 VBOX_NAME    = "Rainmaker Box Builder (Phase2)"
 DISK2_PATH   = File.join(VAGRANT_ROOT, 'disk2.vdi')
-TOOLS_PATH   = File.join(REPO_ROOT, 'tools2')
+TOOLS_PATH   = File.join(REPO_ROOT, 'tools')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = BOX

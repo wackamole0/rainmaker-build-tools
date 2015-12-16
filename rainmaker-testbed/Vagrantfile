@@ -12,7 +12,7 @@ RAM          = "512"
 CPU          = 1
 VBOX_GUI     = true
 VBOX_NAME    = "Rainmaker Testbed (Phase2)"
-TOOLS_PATH   = File.join(REPO_ROOT, 'tools2')
+TOOLS_PATH   = File.join(REPO_ROOT, 'tools')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = BOX
