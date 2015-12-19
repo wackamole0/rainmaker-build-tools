@@ -22,7 +22,7 @@ fi
 eval set -- "$options"
 
 # Initialise some variables
-environment=""
+environment="base"
 
 # Process command line options
 while [ "$#" -gt 0 ]; do
@@ -36,9 +36,4 @@ done
 # Set the resolver
 #echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-if [ "$environment" != "" ]; then
-    salt-call -l debug --local state.highstate saltenv="$environment"
-else
-    salt-call -l debug --local state.highstate
-fi
-
+salt-call -l debug --local state.highstate saltenv="$environment"

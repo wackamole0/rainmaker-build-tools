@@ -18,8 +18,8 @@ EOF
 }
 
 if [ `id -u` -ne 0 ]; then
-  echo "You must run this with root permissions"
-  exit
+    echo "You must run this with root permissions"
+    exit
 fi
 
 script_path=`dirname $0`
@@ -27,8 +27,8 @@ script_path=`dirname $0`
 # Check we have been given a name for the container we are going to build
 
 if [ "$1" == "" ]; then
-  echo "A name for the container must be specified"
-  exit
+    echo "A name for the container must be specified"
+    exit
 fi
 
 # Initialise some variables
@@ -47,7 +47,7 @@ version=""
 options=$(getopt -o he -l help,configure-rprofmgr,profile:,version:,environment: -- "$@")
 
 if [ $? -ne 0 ]; then
-  exit 1
+    exit 1
 fi
 
 eval set -- "$options"
@@ -55,30 +55,30 @@ eval set -- "$options"
 # Fetch command line parameters
 
 while [ "$#" -gt 0 ]; do
-  case "$1" in
-    -h|--help)            usage; exit 1;;
-    --configure-rprofmgr) configure_rprofmgr=1; shift 1;;
-    --profile)            profile=$2; shift 2;;
-    --version)            version=$2; shift 2;;
-    -e|--environment)     environment=$2; shift 2;;
-    *)                    break ;;
-  esac
+    case "$1" in
+        -h|--help)            usage; exit 1;;
+        --configure-rprofmgr) configure_rprofmgr=1; shift 1;;
+        --profile)            profile=$2; shift 2;;
+        --version)            version=$2; shift 2;;
+        -e|--environment)     environment=$2; shift 2;;
+        *)                    break ;;
+    esac
 done
 
 # Configure node in Rainmaker Profile Manager
 
 if [ "$configure_rprofmgr" -eq 1 ]; then
-  if [ -z "$profile" ]; then
-    echo "'profile' parameter is required if --configure-rprofmgr is specified"
-    exit 1
-  fi
+    if [ -z "$profile" ]; then
+        echo "'profile' parameter is required if --configure-rprofmgr is specified"
+        exit 1
+    fi
 
-  if [ -z "$version" ]; then
-    echo "'version' parameter is required if --configure-rprofmgr is specified"
-    exit 1
-  fi
+    if [ -z "$version" ]; then
+        echo "'version' parameter is required if --configure-rprofmgr is specified"
+        exit 1
+    fi
 
-  rprofmgr node:add $container_hostname $profile $version --salt-environment=$environment
+    rprofmgr node:add $container_hostname $profile $version --salt-environment=$environment
 fi
 
 # Create container
@@ -89,7 +89,7 @@ $script_path/../common/set-lxc-config-params $script_path/config/lxc-config $con
 # Configure container network
 
 if [ ! -d "$container_lxc_root_fs/etc/network/interfaces.d" ]; then
-  mkdir "$container_lxc_root_fs/etc/network/interfaces.d"
+    mkdir "$container_lxc_root_fs/etc/network/interfaces.d"
 fi
 
 cp "$script_path/../common/config/interfaces" "$container_lxc_root_fs/etc/network/interfaces"
@@ -114,9 +114,9 @@ lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-core-tools.sh
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-salt.sh
 
 if [ "$environment" != "base" ]; then
-  lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh --fullstack
+    lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh --fullstack
 else
-  lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh
+    lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh
 fi
 
 echo $container_hostname > "$container_lxc_root_fs/etc/salt/minion_id"
