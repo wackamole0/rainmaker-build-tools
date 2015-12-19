@@ -20,26 +20,19 @@ fullstack=0;
 
 # Process command line options
 while [ "$#" -gt 0 ]; do
-  case $1 in
+    case $1 in
         -h|--help)
-          usage
-          exit 1
-      ;;
-    --fullstack)
-      fullstack=1
-      shift
-      break
-      ;;
-  esac
-  shift
+            usage
+            exit 1
+        ;;
+        --fullstack)
+            fullstack=1
+            shift
+            break
+        ;;
+    esac
+    shift
 done
 
-# Configure Salt master and minion
-#if [ $fullstack -eq 1 ]
-#then
-#  cp $tools_path/image-server/config/salt/fullstack/master /etc/salt/master
-#  cp $tools_path/image-server/config/salt/fullstack/minion /etc/salt/minion
-#else
-  cp $tools_path/image-server/config/salt/master /etc/salt/master
-  cp $tools_path/image-server/config/salt/minion /etc/salt/minion
-#fi
+cp $tools_path/image-server/config/salt/master /etc/salt/master
+cp $tools_path/image-server/config/salt/minion /etc/salt/minion

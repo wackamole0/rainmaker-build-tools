@@ -23,4 +23,4 @@ $script_path/prepare-saltstack.sh --fullstack
 
 echo "image.rainmaker.localdev" > /etc/salt/minion_id
 
-$script_path/provision-image-server.sh --environment=builder
+$script_path/provision-image-server.sh --environment=base
