@@ -13,7 +13,7 @@ NETMASK      = "255.255.0.0"
 RAM          = "512"
 CPU          = 1
 VBOX_GUI     = true
-VBOX_NAME    = "Rainmaker Local Image Server (Phase2)"
+VBOX_NAME    = "Rainmaker Local Image Server"
 TOOLS_PATH   = File.join(REPO_ROOT, 'tools')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
