@@ -45,4 +45,9 @@ if [ "`lxc-info -n $container_lxc_name --state | fgrep -i running`" != "" ]; the
     sleep 5
 fi
 
+# Empty LXC caches if present
+if [ -d "$container_lxc_root_fs/var/cache/lxc"  ]; then
+    find /var/cache/lxc/* -maxdepth 0 -type d | fgrep -v rainmaker | xargs rm -Rf
+fi
+
 tar --numeric-owner -C "$container_lxc_root_fs" -czf "$snapshot_full_path" .
