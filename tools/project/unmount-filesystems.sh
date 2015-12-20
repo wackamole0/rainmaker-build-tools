@@ -32,6 +32,6 @@ fi
 
 # Unmount /var/cache/lxc from container
 
-if [ "`grep -s $container_lxc_root_fs/var/cache/lxc /proc/mounts`" != "" ]; then
-    umount "$container_lxc_root_fs/var/cache/lxc"
-fi
+#if [ "`grep -s $container_lxc_root_fs/var/cache/lxc /proc/mounts`" != "" ]; then
+#    umount "$container_lxc_root_fs/var/cache/lxc"
+#fi

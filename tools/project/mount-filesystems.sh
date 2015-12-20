@@ -36,8 +36,8 @@ mount -o bind /srv/saltstack "$container_lxc_root_fs/srv/saltstack"
 
 # Mount /var/cache/lxc from root VM into container
 
-if [ ! -d "$container_lxc_root_fs/var/cache/lxc" ]; then
-    mkdir --mode 0700 "$container_lxc_root_fs/var/cache/lxc"
-fi
+#if [ ! -d "$container_lxc_root_fs/var/cache/lxc" ]; then
+#    mkdir --mode 0700 "$container_lxc_root_fs/var/cache/lxc"
+#fi
 
-mount -o bind /var/cache/lxc "$container_lxc_root_fs/var/cache/lxc"
+#mount -o bind /var/cache/lxc "$container_lxc_root_fs/var/cache/lxc"
