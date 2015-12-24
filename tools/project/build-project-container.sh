@@ -112,6 +112,8 @@ sleep 5
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/upgrade-ubuntu.sh
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-core-tools.sh
 lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/bootstrap-salt.sh
+#lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/install-composer.sh
+#lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/install-rprofmgr.sh
 
 if [ "$environment" != "base" ]; then
     lxc-attach -n "$container_lxc_name" -- /mnt/tools/common/configure-salt.sh --fullstack

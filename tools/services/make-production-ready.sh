@@ -20,6 +20,8 @@ cp $script_path/config/production/named.conf.options /etc/bind/named.conf.option
 cp $script_path/config/production/rainmaker.conf /etc/bind/named.conf.rainmaker/rainmaker.conf
 cp $script_path/config/production/db.rainmaker.localdev /etc/bind/db.rainmaker/db.rainmaker.localdev
 
+$tools_path/common/configure-salt.sh
+
 apt-get clean
 cat /dev/null > ~/.bash_history
 history -c

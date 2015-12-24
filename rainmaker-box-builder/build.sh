@@ -2,8 +2,8 @@
 
 curdir=`pwd`
 dir=`dirname $0`
-box="rainmaker/rainmaker-salt"
-package="rainmaker-salt.box"
+box="rainmaker/rainmaker"
+package="rainmaker.box"
 
 cd "$dir"
 

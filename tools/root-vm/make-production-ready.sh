@@ -27,6 +27,8 @@ do
     fi
 done
 
+$tools_path/common/configure-salt.sh
+
 # Clear LXC caches
 find /var/cache/lxc/* -maxdepth 0 -type d | fgrep -v rainmaker | xargs rm -Rf
 
