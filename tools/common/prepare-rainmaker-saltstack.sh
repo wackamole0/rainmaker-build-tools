@@ -134,22 +134,22 @@ if [ ! -f /srv/saltstack/profiles/manifest.json ]; then
 fi
 
 # Core profile
-/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-salt-core.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-salt-core.git
 
 # Default root VM profile
-/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-core-profile.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-core-profile.git
 
 # Default service container profile
-/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-services-profile.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-services-profile.git
 
 # Default project
-/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-project-profile.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-project-profile.git
 
 # Default branch
-/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-branch-profile.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-default-branch-profile.git
 
 # Drupal classic branch
-#/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-drupal-classic-profile.git --branch=dev
+/opt/rainmaker-profile-manager/rprofmgr profile:add https://github.com/wackamole0/rainmaker-drupal-classic-profile.git
 
 if [ $fullstack -eq 1 ]; then
 
