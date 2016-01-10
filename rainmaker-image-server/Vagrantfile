@@ -9,6 +9,7 @@ BOX          = "wackamole/trusty64"
 BOX_BUILDER_IP     = "10.252.0.250"
 PROFILE_BUILDER_IP = "10.251.0.250"
 TESTBED_IP         = "10.250.0.250"
+PRODUCTION_BOX_IP  = "10.100.0.250"
 NETMASK      = "255.255.0.0"
 RAM          = "512"
 CPU          = 1
@@ -21,6 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: BOX_BUILDER_IP, netmask: NETMASK, auto_config: false
   config.vm.network "private_network", ip: PROFILE_BUILDER_IP, netmask: NETMASK, auto_config: false
   config.vm.network "private_network", ip: TESTBED_IP, netmask: NETMASK, auto_config: false
+  config.vm.network "private_network", ip: PRODUCTION_BOX_IP, netmask: NETMASK, auto_config: false
   config.vm.synced_folder TOOLS_PATH, "/mnt/rainmaker-tools"
 
   config.vm.provider "virtualbox" do |vb|
@@ -30,6 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "--nictype2", "Am79C973", "--nicpromisc2", "allow-all",
       "--nictype3", "Am79C973", "--nicpromisc3", "allow-all",
       "--nictype4", "Am79C973", "--nicpromisc4", "allow-all",
+      "--nictype5", "Am79C973", "--nicpromisc5", "allow-all",
     ]
   end
 
