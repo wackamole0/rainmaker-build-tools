@@ -1,7 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [ ! -e ~/rainmaker-profile-builder ]; then
-    mkdir ~/rainmaker-profile-builder
+if [[ "$HOME" == "" ]]; then
+    echo 'The environment $HOME is not defined.'
+    exit 1
 fi
 
-mount -o rw -t nfs 10.251.0.254:/export/rainmaker ~/rainmaker-profile-builder
+mount_source="10.251.0.254:/export/rainmaker"
+mount_target="$HOME/rainmaker-profile-builder"
+
+if [[ $(df $mount_target | fgrep $mount_target) == "" ]]; then
+    if [ ! -e $mount_target ]; then
+        mkdir $mount_target
+    fi
+
+    mount -o rw -t nfs $mount_source $mount_target
+else
+    echo 'The Rainmaker NFS exports are already mounted.'
+    exit 1
+fi
