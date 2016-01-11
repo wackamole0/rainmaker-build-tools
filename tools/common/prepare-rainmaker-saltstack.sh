@@ -169,6 +169,6 @@ fi
 
 for saltenv in $saltenvs
 do
-    /opt/rainmaker-profile-manager/rprofmgr node:add rainmaker.localdev rainmaker/default-core-dev 1.0 --salt-environment=$saltenv
-    /opt/rainmaker-profile-manager/rprofmgr node:add services.rainmaker.localdev rainmaker/default-services-dev 1.0 --salt-environment=$saltenv
+    /opt/rainmaker-profile-manager/rprofmgr node:add rainmaker.localdev rainmaker/default-core 1.0 --salt-environment=$saltenv
+    /opt/rainmaker-profile-manager/rprofmgr node:add services.rainmaker.localdev rainmaker/default-services 1.0 --salt-environment=$saltenv
 done

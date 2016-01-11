@@ -11,7 +11,7 @@ curdir=`pwd`
 
 cd /opt/rainmaker-profile-manager
 git clone https://github.com/wackamole0/rainmaker-profile-manager.git .
-git checkout develop
+git checkout 0.1
 
 cd $curdir
 

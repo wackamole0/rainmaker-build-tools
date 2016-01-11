@@ -13,7 +13,7 @@ apt-get install -y php5-curl php5-sqlite
 
 cd /opt/rainmaker-cli
 git clone https://github.com/wackamole0/rainmaker-tool.git .
-git checkout develop
+git checkout 0.1
 
 cd $curdir
 
